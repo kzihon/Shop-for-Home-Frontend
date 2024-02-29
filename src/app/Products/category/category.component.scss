@@ -1,0 +1,13 @@
+.category {
+    margin: 8%;
+}
+
+.products {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.product {
+    padding: 2%;
+    flex-basis: 21%;
+}

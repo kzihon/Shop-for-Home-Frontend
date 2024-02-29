@@ -1,0 +1,7 @@
+<a routerLink="/home">back to shopping</a>
+<h2>MY WISHLIST</h2>
+<section class="products">
+    <div *ngFor="let product of products" class="product">
+          <app-product-card [product]="product"></app-product-card>            
+    </div>
+</section>

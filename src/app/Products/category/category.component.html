@@ -1,0 +1,12 @@
+
+    <div class="category">
+      <h2>{{category}}</h2>
+      <p>{{length}} results</p>
+         <section class="products">
+             <div *ngFor="let product of products" class="product">
+                   <app-product-card [product]="product"></app-product-card>            
+             </div>
+         </section>
+     </div>
+   
+   

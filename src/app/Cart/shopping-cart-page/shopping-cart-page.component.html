@@ -1,0 +1,13 @@
+<a routerLink="/home">back to shopping</a>
+
+
+<h2>SHOPPING CART</h2>
+<div class="content">
+    <div>
+        <app-cart-item [id]="product" *ngFor="let product of productIds"></app-cart-item>
+    </div>
+    
+    <div>
+        <app-cart-total></app-cart-total>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<div>
+    <a [routerLink]="['/home']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">categories</a>
+ / 
+    <a [routerLink]="['/categories', product.category]">{{product.category}}</a>
+
+</div>
+
+<div class="product">
+    <img src="{{product.img}}" alt="" class="img">
+    <div class="info">
+        <div class="title">
+            <h1>{{product.name}}</h1>
+            <app-wishlist-button></app-wishlist-button>
+        </div>
+        <p>Price: ${{product.price}}</p>
+        <p>description description description description description description description description description description description description description description description description description description description description </p>
+        <app-quantity-component></app-quantity-component>
+        <app-button-component [text]="'add to cart'"></app-button-component>
+    </div>
+
+</div>
+
+        
