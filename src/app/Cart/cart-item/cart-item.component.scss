@@ -1,0 +1,17 @@
+
+.cartItem{
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 2px 5px 0 gray;
+    padding: 4%;
+    border-radius: 5px;
+    margin: 2%;
+}
+
+.left {
+    display: flex;
+}
+
+.img {
+    width: 50%;
+}

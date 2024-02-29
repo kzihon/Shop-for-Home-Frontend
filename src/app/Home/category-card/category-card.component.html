@@ -1,0 +1,6 @@
+<div class="categoryCard">
+    <a [routerLink]="['/categories', category.name]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <img src="{{category.img}}" alt="">
+        <p class="title">{{category.name}}</p>
+    </a>   
+ </div>

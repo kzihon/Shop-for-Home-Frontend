@@ -1,0 +1,26 @@
+<div *ngIf="loggedIn() == false">
+    <mat-button (click)="openSignInDialog()"> SIGN IN</mat-button>
+    /
+    <mat-button (click)="openSignUpDialog()"> SIGN UP</mat-button>
+</div>
+
+<div *ngIf="isAdmin() == false && loggedIn() == true">
+    <a [matMenuTriggerFor]="menu">        
+        <span class="material-icons-outlined">account_circle</span>
+    </a>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item routerLink="/accountInfo" class="menuLink">My Info</button>
+      <button mat-menu-item (click)="logout()" routerLink="/home">Logout</button>
+    </mat-menu>
+</div>
+
+<div *ngIf="isAdmin() == true && loggedIn() == true">
+    <a [matMenuTriggerFor]="menu">
+        <span class="material-icons-outlined">account_circle</span>
+    </a>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="/accountInfo" class="menuLink">My Info</button>
+        <button mat-menu-item routerLink="/admin" class="menuLink">Admin Services</button>
+        <button mat-menu-item (click)="logout()" routerLink="/home">Logout</button>
+      </mat-menu>
+</div>

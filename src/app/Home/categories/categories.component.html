@@ -1,0 +1,9 @@
+<div class="home">
+   <h2>SHOP BY CATEGORY</h2>
+      <section class="categories">
+          <div *ngFor="let category of categories" class="category">
+                <app-category-card [category]="category"></app-category-card>            
+          </div>
+      </section>
+  </div>
+
