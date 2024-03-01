@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { MatMenuModule } from '@angular/material/menu'
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatButtonModule} from '@angular/material/button';
-
-
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatButtonModule } from '@angular/material/button';
 
 import { AppComponent } from './app.component';
 import { LayoutComponent } from './Layout/layout/layout.component';
@@ -66,7 +64,6 @@ import { ButtonComponentComponent } from './Buttons/button-component/button-comp
     ProductOperationsComponent,
     QuantityComponentComponent,
     ButtonComponentComponent,
-  
   ],
   imports: [
     BrowserModule,
@@ -79,11 +76,9 @@ import { ButtonComponentComponent } from './Buttons/button-component/button-comp
     MatMenuModule,
     MatTabsModule,
     ReactiveFormsModule,
-    MatButtonModule
+    MatButtonModule,
   ],
-  providers: [
-    provideAnimationsAsync()
-  ],
-  bootstrap: [AppComponent]
+  providers: [provideAnimationsAsync()],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

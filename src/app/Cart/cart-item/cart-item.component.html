@@ -1,21 +1,23 @@
-
 <div class="cartItem">
-    <div class="left">
-        <img src="{{product.img}}" alt="" class="img">
-         <div class="details">
-            <p>{{product.name}}</p>
-            <p>{{product.price}}</p>
-
-        </div>
+  <div class="left">
+    <img src="{{ product.img }}" alt="" class="img" />
+    <div class="details">
+      <h2>{{ product.name }}</h2>
+      <p>{{ product.price }}</p>
     </div>
-    <div>
-        <button>quantity</button>
-        <button>remove</button>
-
+  </div>
+  <div>
+    <!-- <button>{{ quantity }}</button> -->
+    <div class="quantityComponent">
+      <button mat-button (click)="decrease()">-</button>
+      <p class="quantity">{{ quantity }}</p>
+      <button mat-button (click)="increase()">+</button>
     </div>
-    <div>
-        <p>Total: {{product.price}}</p>
-    </div>
-        
-
- </div>
+  </div>
+  <div>
+    <p>Total: ${{ round(product.price * quantity) }}</p>
+    <mat-icon (click)="removeItem()" class="material-icons-outlined"
+      >delete</mat-icon
+    >
+  </div>
+</div>

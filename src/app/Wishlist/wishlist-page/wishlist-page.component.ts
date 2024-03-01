@@ -6,19 +6,21 @@ import { ProductService } from '../../services/product.service';
 @Component({
   selector: 'app-wishlist-page',
   templateUrl: './wishlist-page.component.html',
-  styleUrl: './wishlist-page.component.scss'
+  styleUrl: './wishlist-page.component.scss',
 })
 export class WishlistPageComponent {
   public productIds: number[];
   public products: Product[];
-  
-  constructor(userService: UserService, private productService: ProductService) {
-    this.productIds = userService.user.cart;
-    this.loadProducts(this.productIds)
+
+  constructor(
+    userService: UserService,
+    private productService: ProductService
+  ) {
+    this.productIds = userService.user.wishlist;
+    this.loadProducts(this.productIds);
   }
 
-
-  loadProducts (productIds: number[]) {
-    this.products = this.productService.getProductsByIds(this.productIds)
+  loadProducts(productIds: number[]) {
+    this.products = this.productService.getProductsByIds(this.productIds);
   }
 }

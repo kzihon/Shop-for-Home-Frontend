@@ -1,17 +1,29 @@
 .product {
-    display: flex;
-    padding: 5%;
+  display: flex;
+  padding: 5%;
 }
 
 .img {
-    width: 80%;
+  width: 80%;
 }
 
 .info {
-    margin: 0 10% 0 10%;
+  margin: 0 10% 0 10%;
 }
 
 .title {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
+}
+.quantityComponent {
+  display: flex;
+  outline: solid lightgray;
+  width: fit-content;
+  justify-content: center;
+  align-items: center;
+}
+
+.quantity {
+  vertical-align: middle;
+  margin-bottom: 0;
 }

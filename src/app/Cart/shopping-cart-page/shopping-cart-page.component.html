@@ -1,13 +1,17 @@
 <a routerLink="/home">back to shopping</a>
 
-
 <h2>SHOPPING CART</h2>
+<p *ngIf="cartMap().size == 0">No Items In Your Cart</p>
 <div class="content">
-    <div>
-        <app-cart-item [id]="product" *ngFor="let product of productIds"></app-cart-item>
-    </div>
-    
-    <div>
-        <app-cart-total></app-cart-total>
-    </div>
+  <div class="items">
+    <app-cart-item
+      [id]="item.key"
+      [quantity]="item.value"
+      *ngFor="let item of cartMap() | keyvalue"
+    ></app-cart-item>
+  </div>
+
+  <div class="total">
+    <app-cart-total></app-cart-total>
+  </div>
 </div>

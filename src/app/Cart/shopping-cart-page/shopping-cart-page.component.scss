@@ -1,8 +1,13 @@
 .content {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  //   justify-content: space-between;
 }
 
 .items {
-    flex-direction: column;
+  flex-direction: column;
+  width: 60%;
+}
+
+.total {
+  width: 25%;
 }
