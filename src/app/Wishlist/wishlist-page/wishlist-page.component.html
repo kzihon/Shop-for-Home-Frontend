@@ -1,7 +1,9 @@
-<a routerLink="/home">back to shopping</a>
+<a routerLink="/home">&larr; back to shopping</a>
 <h2>MY WISHLIST</h2>
+<p *ngIf="products.length == 0">No Items In Your Wishlist</p>
+
 <section class="products">
-    <div *ngFor="let product of products" class="product">
-          <app-product-card [product]="product"></app-product-card>            
-    </div>
+  <div *ngFor="let product of products" class="product">
+    <app-product-card [product]="product"></app-product-card>
+  </div>
 </section>

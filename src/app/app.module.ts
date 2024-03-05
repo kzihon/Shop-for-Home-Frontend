@@ -7,6 +7,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { LayoutComponent } from './Layout/layout/layout.component';
@@ -36,6 +38,8 @@ import { SignUpDialogComponent } from './Login/sign-up-dialog/sign-up-dialog.com
 import { ProductOperationsComponent } from './Admin/product-operations/product-operations.component';
 import { QuantityComponentComponent } from './Buttons/quantity-component/quantity-component.component';
 import { ButtonComponentComponent } from './Buttons/button-component/button-component.component';
+import { GeneralFormComponent } from './Admin/general-form/general-form.component';
+import { ProductWishlistButtonComponent } from './Buttons/product-wishlist-button/product-wishlist-button.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +68,8 @@ import { ButtonComponentComponent } from './Buttons/button-component/button-comp
     ProductOperationsComponent,
     QuantityComponentComponent,
     ButtonComponentComponent,
+    GeneralFormComponent,
+    ProductWishlistButtonComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,6 +83,8 @@ import { ButtonComponentComponent } from './Buttons/button-component/button-comp
     MatTabsModule,
     ReactiveFormsModule,
     MatButtonModule,
+    MatSelectModule,
+    HttpClientModule,
   ],
   providers: [provideAnimationsAsync()],
   bootstrap: [AppComponent],

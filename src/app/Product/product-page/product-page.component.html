@@ -3,7 +3,7 @@
     [routerLink]="['/home']"
     routerLinkActive="active"
     [routerLinkActiveOptions]="{ exact: true }"
-    >categories</a
+    >&larr; categories</a
   >
   /
   <a [routerLink]="['/categories', product.category]">{{ product.category }}</a>
@@ -14,7 +14,9 @@
   <div class="info">
     <div class="title">
       <h1>{{ product.name }}</h1>
-      <app-wishlist-button></app-wishlist-button>
+      <app-product-wishlist-button
+        [productId]="product.id"
+      ></app-product-wishlist-button>
     </div>
     <p>Price: ${{ product.price }}</p>
     <p>

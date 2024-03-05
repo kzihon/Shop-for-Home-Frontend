@@ -89,6 +89,22 @@ export class UserService {
     console.log("couldn't find user by email");
   }
 
+  isInWishlist(productId: number) {
+    console.log(productId, this.user.wishlist.includes(productId));
+    return this.user.wishlist.includes(productId);
+  }
+
+  removeFromWishlist(productId: number) {
+    let index = this.user.wishlist.indexOf(productId);
+    if (index > -1) {
+      this.user.wishlist.splice(index, 1);
+    }
+  }
+
+  addToWishlist(productId: number) {
+    this.user.wishlist.push(productId);
+  }
+
   users: User[] = [
     {
       id: null,

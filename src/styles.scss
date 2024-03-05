@@ -1,38 +1,40 @@
 /* You can add global styles to this file, and also import other style files */
 
-
-@import 'material-icons/iconfont/material-icons.css';
-
-@font-face {
-    font-family: Poppins-light;
-    src: url('../src/assets/Poppins/Poppins-ExtraLight.ttf');
-  }
+@import "material-icons/iconfont/material-icons.css";
 
 @font-face {
-    font-family: Poppins-medium;
-    src: url('../src/assets/Poppins/Poppins-Light.ttf');
+  font-family: Poppins-light;
+  src: url("../src/assets/Poppins/Poppins-ExtraLight.ttf");
 }
 
-html, body { height: 100%; }
+@font-face {
+  font-family: Poppins-medium;
+  src: url("../src/assets/Poppins/Poppins-Light.ttf");
+}
+
+html,
+body {
+  height: 100%;
+}
 // body { font-family: 'Poppins-light'}
 body {
-    font-family: 'Poppins-light' !important;
+  font-family: "Poppins-light" !important;
 }
 p {
-    font-family: 'Poppins-light'
+  font-family: "Poppins-light";
 }
 h2 {
-    font-family: 'Poppins-medium'
+  font-family: "Poppins-medium";
 }
 .mat-typography h1 {
-    font-family: 'Poppins-medium'
+  font-family: "Poppins-medium";
 }
 .mat-typography h2 {
-    font-family: 'Poppins-medium'
+  font-family: "Poppins-medium";
 }
 a {
-    color: black;
-    text-decoration: none;
+  color: black;
+  text-decoration: none;
 }
 // mat-menu {
 //     &.mat-menu-item.mat-typography {
@@ -40,10 +42,14 @@ a {
 //     }
 // }
 .mat-mdc-menu-item {
-    color: pink;
+  color: pink;
 }
 mat-mdc-menu-item {
-    &.mat-mdc-menu-item:link {
-        color: pink
-    }
+  &.mat-mdc-menu-item:link {
+    color: pink;
+  }
+}
+
+.mat-typography {
+  font-family: "Poppins-light";
 }

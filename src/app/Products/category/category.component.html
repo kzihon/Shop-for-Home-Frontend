@@ -1,12 +1,24 @@
+<div class="category">
+  <div class="backlink">
+    <a [routerLink]="['/home']">&larr; categories</a>
+  </div>
 
-    <div class="category">
-      <h2>{{category}}</h2>
-      <p>{{length}} results</p>
-         <section class="products">
-             <div *ngFor="let product of products" class="product">
-                   <app-product-card [product]="product"></app-product-card>            
-             </div>
-         </section>
-     </div>
-   
-   
+  <div class="header">
+    <div>
+      <h2>{{ category }}</h2>
+      <p>{{ length }} results</p>
+    </div>
+    <mat-form-field>
+      <mat-label>Sort By</mat-label>
+      <mat-select [(value)]="sort" (selectionChange)="sortProducts()">
+        <mat-option value="Low to High">Price: Low to High</mat-option>
+        <mat-option value="High to Low">Price: High to Low</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <section class="products">
+    <div *ngFor="let product of products" class="product">
+      <app-product-card [product]="product"></app-product-card>
+    </div>
+  </section>
+</div>
