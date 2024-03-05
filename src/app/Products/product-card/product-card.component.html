@@ -1,16 +1,18 @@
-
 <div class="productCard">
-
-    <a [routerLink]="['/product', product.id]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <div class="top">
-            <img src="{{product.img}}" alt="" class="img">
-        </div>
-        <div class="heart">
-            <p>{{product.name}}</p>
-            <app-wishlist-button></app-wishlist-button>
-
-        </div>
-        <p>{{product.price}}</p>
-
-    </a>   
- </div>
+  <a
+    [routerLink]="['/product', product.id]"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    <div class="top">
+      <img src="{{ product.img }}" alt="" class="img" />
+    </div>
+    <div class="heart">
+      <p>{{ product.name }}</p>
+    </div>
+    <p>{{ product.price }}</p>
+  </a>
+  <app-product-wishlist-button
+    [productId]="product.id"
+  ></app-product-wishlist-button>
+</div>

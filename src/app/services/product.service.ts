@@ -1,10 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../model';
+import { Observable, catchError, map, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { env } from '../env';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
+  constructor(
+    private http: HttpClient // private localStorageService: LocalStorageService
+  ) {}
   getProducts() {
     return this.products;
   }
@@ -34,6 +40,57 @@ export class ProductService {
     return this.products.filter((product) => product.name === name)[0];
   }
 
+  createProduct1(name: string) {
+    console.log('creating product: ', name);
+    // make call to backend
+  }
+
+  public createProduct(
+    name: string,
+    price: number,
+    description: string,
+    category: string,
+    numberInStock: number,
+    supplierName: string
+  ): Observable<any> {
+    // public createProduct (name: string): Observable<any> {
+
+    return this.http
+      .post(
+        env.SERVER_URI + '/product/create',
+        { name, price, description, category, numberInStock, supplierName },
+        { observe: 'response' }
+      )
+      .pipe(
+        map((response) => {
+          console.log(response);
+          const productDetails = (response.body as any).name;
+
+          // const product = productDetails.name
+          return productDetails;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  // public deleteProduct(id: number): Observable<any> {
+  //   return this.http
+  //     .delete(env.SERVER_URI + '/product/delete/{id}', { observe: 'response' })
+  //     .pipe(
+  //       map((response) => {
+  //         console.log(response);
+  //         const productDetails = (response.body as any).name;
+
+  //         return productDetails;
+  //       }),
+  //       catchError(this.handleError)
+  //     );
+  // }
+  private handleError({ error }: HttpErrorResponse) {
+    console.log({ error });
+    return throwError(() => error.message);
+  }
+
   private products: Product[] = [
     {
       name: 'TABLES',
@@ -47,7 +104,7 @@ export class ProductService {
     },
     {
       name: 'Pink Plushy Chair',
-      price: 20.99,
+      price: 25.99,
       img: 'assets/images/chairs.png',
       category: 'chairs',
       id: 2,
@@ -57,7 +114,7 @@ export class ProductService {
     },
     {
       name: 'Pink Plushy Chair',
-      price: 20.99,
+      price: 22.99,
       img: 'assets/images/chairs.png',
       category: 'chairs',
       id: 3,
@@ -67,7 +124,7 @@ export class ProductService {
     },
     {
       name: 'Pink Heart Chair',
-      price: 20.99,
+      price: 10.99,
       img: 'assets/images/pinkHeartChair.png',
       category: 'chairs',
       id: 4,
@@ -77,7 +134,7 @@ export class ProductService {
     },
     {
       name: 'Pink Heart Chair',
-      price: 20.99,
+      price: 30.99,
       img: 'assets/images/pinkHeartChair.png',
       category: 'chairs',
       id: 5,
@@ -117,7 +174,7 @@ export class ProductService {
     },
     {
       name: 'Pink Plushy Chair',
-      price: 20.99,
+      price: 30.99,
       img: 'assets/images/chairs.png',
       category: 'chairs',
       id: 9,

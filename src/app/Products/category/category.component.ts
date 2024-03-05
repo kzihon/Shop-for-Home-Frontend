@@ -7,39 +7,37 @@ import { ProductService } from '../../services/product.service';
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
-  styleUrl: './category.component.scss'
+  styleUrl: './category.component.scss',
 })
 export class CategoryComponent {
-  category = ''
-  products: Product[] = []
-  sort = ''
+  category = '';
+  products: Product[] = [];
+  sort: string = '';
+  sortTypes: string[] = ['Low to High', 'High to Low'];
   length: number;
 
-  constructor (
+  constructor(
     public route: ActivatedRoute,
     private productService: ProductService
   ) {}
 
-  ngOnInit (): void {
+  ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.category = params['categoryName']
-      this.loadProducts(params['categoryName'])
+      this.category = params['categoryName'];
+      this.loadProducts(params['categoryName']);
       this.length = this.products.length;
-    })
-
-    // this.route.queryParams.subscribe((params: Params) => {
-    //   this.sort = params['sort']
-    //   this.sortEmployees(params['sort'])
-    // })
+    });
   }
 
-  // sortProducts (sortBy: string) {
-  //   if (sortBy === 'name')
-  //     this.employees.sort((a, b) => a.name.localeCompare(b.name))
-  //   else if (sortBy === 'age') this.employees.sort((a, b) => a.age - b.age)
-  // }
+  sortProducts() {
+    if (this.sort === 'High to Low') {
+      this.products.sort((a, b) => b.price - a.price);
+    } else if (this.sort === 'Low to High') {
+      this.products.sort((a, b) => a.price - b.price);
+    }
+  }
 
-  loadProducts (category: string) {
-    this.products = this.productService.getProductsByCategory(this.category)
+  loadProducts(category: string) {
+    this.products = this.productService.getProductsByCategory(this.category);
   }
 }

@@ -1,0 +1,17 @@
+<div *ngIf="loggedIn() == false">
+  <a (click)="openSignInDialog()">
+    <mat-icon>favorite_border</mat-icon>
+  </a>
+</div>
+
+<div *ngIf="loggedIn() == true && !inWishlist">
+  <mat-button (click)="heartClick()">
+    <mat-icon>favorite_border</mat-icon>
+  </mat-button>
+</div>
+
+<div *ngIf="loggedIn() == true && inWishlist">
+  <mat-button (click)="heartClick()">
+    <mat-icon>favorite</mat-icon>
+  </mat-button>
+</div>

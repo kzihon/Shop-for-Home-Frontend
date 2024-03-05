@@ -1,13 +1,26 @@
 .category {
-    margin: 8%;
+  margin: 5%;
+}
+
+.backlink {
+  margin-bottom: 3%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.select {
+  width: 20%;
 }
 
 .products {
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .product {
-    padding: 2%;
-    flex-basis: 21%;
+  padding: 2%;
+  flex-basis: 21%;
 }

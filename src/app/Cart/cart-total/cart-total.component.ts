@@ -14,7 +14,8 @@ export class CartTotalComponent {
     this.cartService.cart()
   );
   public numItems: number;
-  subtotal: number;
+  subtotal: Signal<number> = computed(() => this.calculateSubtotal());
+  // subtotal: number;
 
   constructor(
     private userService: UserService,
@@ -22,7 +23,7 @@ export class CartTotalComponent {
     private productService: ProductService
   ) {
     // this.cartMap = this.cartService.cart;
-    this.subtotal = this.calculateSubtotal();
+    // this.subtotal.set(this.calculateSubtotal());
   }
 
   calculateSubtotal() {
