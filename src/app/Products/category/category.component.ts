@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Product } from '../../model';
+import { CategoryType, Product } from '../../model';
 import { ActivatedRoute, Params } from '@angular/router';
 import { CategoryService } from '../../services/category.service';
 import { ProductService } from '../../services/product.service';
@@ -10,7 +10,7 @@ import { ProductService } from '../../services/product.service';
   styleUrl: './category.component.scss',
 })
 export class CategoryComponent {
-  category = '';
+  category: CategoryType;
   products: Product[] = [];
   sort: string = '';
   sortTypes: string[] = ['Low to High', 'High to Low'];

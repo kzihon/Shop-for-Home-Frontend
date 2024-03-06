@@ -6,7 +6,7 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Product } from '../../model';
+import { CategoryType, Product } from '../../model';
 import { ProductService } from '../../services/product.service';
 
 @Component({
@@ -15,7 +15,6 @@ import { ProductService } from '../../services/product.service';
   styleUrl: './product-operations.component.scss',
 })
 export class ProductOperationsComponent {
-  category = '';
   products: Product[] = [];
   sort: string = '';
   sortTypes: string[] = ['Low to High', 'High to Low'];
@@ -31,10 +30,29 @@ export class ProductOperationsComponent {
     private dialog: MatDialog
   ) {
     // this.products = this.productService.getProducts();
+    // for (let product of this.productsSignal()) {
+    //   console.log('one item in admin products', product.name);
+    // }
+    // this.productsSignal().forEach((product) => console.log('item', product));
+    // console.log(
+    //   'all items in admin backend',
+    //   this.productsSignal(),
+    //   this.productsSignal().length,
+    //   typeof this.productsSignal()
+    // );
   }
 
   ngOnInit() {
     this.products = this.productService.getProducts();
+    this.productsSignal().forEach((product) =>
+      console.log('item', product, product.imageModel)
+    );
+    console.log(
+      'all items in admin backend',
+      this.productsSignal(),
+      this.productsSignal().length,
+      typeof this.productsSignal()
+    );
   }
 
   sortProducts() {
@@ -45,9 +63,9 @@ export class ProductOperationsComponent {
     }
   }
 
-  loadProducts(category: string) {
-    this.products = this.productService.getProductsByCategory(this.category);
-  }
+  // loadProducts(category: CategoryType) {
+  //   this.products = this.productService.getProductsByCategory(this.category);
+  // }
 
   openCreateProduct() {
     const dialogConfig = new MatDialogConfig();
@@ -69,11 +87,12 @@ export class ProductOperationsComponent {
     this.dialog.open(GeneralFormComponent, dialogConfig);
   }
 
-  deleteProduct(productId: number) {
-    if (productId == null) {
+  deleteProduct(product: Product) {
+    if (product.productId == null) {
       console.log('no id');
     } else {
-      this.productService.deleteProduct(productId).subscribe((res) => {
+      this.productService.deleteProductFrontend(product);
+      this.productService.deleteProduct(product.productId).subscribe((res) => {
         console.log(res);
       });
     }

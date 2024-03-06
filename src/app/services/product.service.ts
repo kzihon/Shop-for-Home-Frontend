@@ -1,23 +1,27 @@
 import { Injectable, WritableSignal, signal } from '@angular/core';
-import { Product } from '../model';
+import { CategoryType, Product } from '../model';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { env } from '../env';
+import { AuthorizedHttpService } from './authorized-http.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
   constructor(
-    private http: HttpClient // private localStorageService: LocalStorageService
+    private http: HttpClient,
+    private authorizedHttpService: AuthorizedHttpService
   ) {
     this.loadProducts();
+    console.log('products from dummy', this.productsSignal());
   }
-  productsSignal: WritableSignal<Product[]> = signal([]);
+  productsSignal: WritableSignal<Product[]> = signal(new Array<Product>());
 
   loadProducts() {
     this.getAllProducts().subscribe((products: Product[]) => {
       products.forEach((el: Product) => {
+        console.log('element from backend', el);
         // el.processedImage = 'data:image/jpeg;base64,' + el.image
         // this.products.push(el)
         this.productsSignal().push(el);
@@ -39,8 +43,8 @@ export class ProductService {
     return this.products;
   }
 
-  getProductsByCategory(category: string) {
-    if (category === 'all products') {
+  getProductsByCategory(category: CategoryType) {
+    if (category.toString() == 'ALL PRODUCTS') {
       return this.products;
     }
     return this.products.filter((product) => product.category === category);
@@ -66,9 +70,9 @@ export class ProductService {
     return this.products.filter((product) => product.name === name)[0];
   }
 
-  createProduct1(name: string) {
-    console.log('creating product: ', name);
-    // make call to backend
+  createProductFrontend(product: Product) {
+    console.log('creating product: ', product);
+    this.productsSignal().push(product);
   }
 
   // calls to database
@@ -76,15 +80,31 @@ export class ProductService {
     name: string,
     price: number,
     description: string,
-    category: string,
+    category: CategoryType,
     numberInStock: number,
     supplierName: string
   ): Observable<any> {
+    // this.productsSignal().push({
+    //   name: name,
+    // price: price,
+    // description: description,
+    // category: category,
+    // numberInStock: numberInStock,
+    // supplierName: supplierName
+    // })
     return this.http.post(
       env.SERVER_URI + '/product/create',
       { name, price, description, category, numberInStock, supplierName }
+      // {headers: this.authorizedHeader}
       // { headers: 'response' }
     );
+  }
+
+  editProductFrontend(oldProduct: Product, product: Product) {
+    let index = this.productsSignal().indexOf(oldProduct);
+    if (index > -1) {
+      this.productsSignal()[index] = product;
+    }
   }
 
   public editProduct(
@@ -92,18 +112,23 @@ export class ProductService {
     name: string,
     price: number,
     description: string,
-    category: string,
+    category: CategoryType,
     numberInStock: number,
     supplierName: string
   ): Observable<any> {
-    console.log(id);
-    return this.http.put(
-      `${env.SERVER_URI}/product/update/${id}`,
+    return this.authorizedHttpService.put(
+      `/product/${id}`,
       { name, price, description, category, numberInStock, supplierName }
+
       // { headers: 'response' }
     );
   }
-
+  deleteProductFrontend(product: Product) {
+    let index = this.productsSignal().indexOf(product);
+    if (index > -1) {
+      this.productsSignal().splice(index, 1);
+    }
+  }
   deleteProduct(id: number): Observable<void> {
     return this.http.delete<void>(
       `${env.SERVER_URI}/product/delete/${id}`
@@ -112,7 +137,7 @@ export class ProductService {
   }
 
   getAllProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${env.SERVER_URI}/product/get`);
+    return this.http.get<Product[]>(`${env.SERVER_URI}/product`);
   }
 
   // updateProduct (id: number, formData: FormData): Observable<any> {
@@ -143,112 +168,127 @@ export class ProductService {
     {
       name: 'TABLES',
       price: 20.99,
-      img: 'assets/images/tables.png',
-      category: 'tables',
+      imageModel: {
+        id: 1,
+        name: 'tables.png',
+        type: 'image/png',
+        filePath: 'assets/images/tables.png',
+      },
+      category: CategoryType.TABLE,
       productId: 111,
       description: 'description description description description',
       numberInStock: 10,
-      supplierName: 'decor supplier 1',
+      supplier: 'decor supplier 1',
     },
     {
       name: 'Pink Plushy Chair',
       price: 25.99,
-      img: 'assets/images/chairs.png',
-      category: 'chairs',
+      imageModel: {
+        id: 1,
+        name: 'tables.png',
+        type: 'image/png',
+        filePath: 'assets/images/tables.png',
+      },
+      category: CategoryType.CHAIRS,
       productId: 112,
       description: 'description description description description',
       numberInStock: 10,
-      supplierName: 'decor supplier 1',
+      supplier: 'decor supplier 1',
     },
     {
       name: 'Pink Plushy Chair',
       price: 22.99,
-      img: 'assets/images/chairs.png',
-      category: 'chairs',
+      imageModel: {
+        id: 1,
+        name: 'tables.png',
+        type: 'image/png',
+        filePath: 'assets/images/tables.png',
+      },
+      category: CategoryType.CHAIRS,
       productId: 113,
       description: 'description description description description',
       numberInStock: 10,
-      supplierName: 'decor supplier 1',
+      supplier: 'decor supplier 1',
     },
-    {
-      name: 'Pink Heart Chair',
-      price: 10.99,
-      img: 'assets/images/pinkHeartChair.png',
-      category: 'chairs',
-      productId: 114,
-      description: 'description description description description',
-      numberInStock: 10,
-      supplierName: 'decor supplier 1',
-    },
-    {
-      name: 'Pink Heart Chair',
-      price: 30.99,
-      img: 'assets/images/pinkHeartChair.png',
-      category: 'chairs',
-      productId: 115,
-      description: 'description description description description',
-      numberInStock: 10,
-      supplierName: 'decor supplier 1',
-    },
-    {
-      name: 'LAMPS',
-      price: 20.99,
-      img: 'assets/images/lamps.png',
-      category: 'lamps',
-      productId: 116,
-      description: 'description description description description',
-      numberInStock: 10,
-      supplierName: 'decor supplier 1',
-    },
-    {
-      name: 'TABLES',
-      price: 20.99,
-      img: 'assets/images/tables.png',
-      category: 'tables',
-      productId: 117,
-      description: 'description description description description',
-      numberInStock: 10,
-      supplierName: 'decor supplier 1',
-    },
-    {
-      name: 'TABLES',
-      price: 20.99,
-      img: 'assets/images/tables.png',
-      category: 'tables',
-      productId: 118,
-      description: 'description description description description',
-      numberInStock: 10,
-      supplierName: 'decor supplier 1',
-    },
-    {
-      name: 'Pink Plushy Chair',
-      price: 30.99,
-      img: 'assets/images/chairs.png',
-      category: 'chairs',
-      productId: 119,
-      description: 'description description description description',
-      numberInStock: 10,
-      supplierName: 'decor supplier 1',
-    },
-    {
-      name: 'LAMPS',
-      price: 20.99,
-      img: 'assets/images/lamps.png',
-      category: 'lamps',
-      productId: 110,
-      description: 'description description description description',
-      numberInStock: 10,
-      supplierName: 'decor supplier 1',
-    },
-    {
-      name: 'TABLES',
-      price: 20.99,
-      img: 'assets/images/tables.png',
-      category: 'tables',
-      productId: 111,
-      description: 'description description description description',
-      numberInStock: 10,
-      supplierName: 'decor supplier 1',
-    },
+    // {
+    //   name: 'Pink Heart Chair',
+    //   price: 10.99,
+    //   img: 'assets/images/pinkHeartChair.png',
+    //   category: 'chairs',
+    //   productId: 114,
+    //   description: 'description description description description',
+    //   numberInStock: 10,
+    //   supplierName: 'decor supplier 1',
+    // },
+    // {
+    //   name: 'Pink Heart Chair',
+    //   price: 30.99,
+    //   img: 'assets/images/pinkHeartChair.png',
+    //   category: 'chairs',
+    //   productId: 115,
+    //   description: 'description description description description',
+    //   numberInStock: 10,
+    //   supplierName: 'decor supplier 1',
+    // },
+    // {
+    //   name: 'LAMPS',
+    //   price: 20.99,
+    //   img: 'assets/images/lamps.png',
+    //   category: 'lamps',
+    //   productId: 116,
+    //   description: 'description description description description',
+    //   numberInStock: 10,
+    //   supplierName: 'decor supplier 1',
+    // },
+    // {
+    //   name: 'TABLES',
+    //   price: 20.99,
+    //   img: 'assets/images/tables.png',
+    //   category: 'tables',
+    //   productId: 117,
+    //   description: 'description description description description',
+    //   numberInStock: 10,
+    //   supplierName: 'decor supplier 1',
+    // },
+    // {
+    //   name: 'TABLES',
+    //   price: 20.99,
+    //   img: 'assets/images/tables.png',
+    //   category: 'tables',
+    //   productId: 118,
+    //   description: 'description description description description',
+    //   numberInStock: 10,
+    //   supplierName: 'decor supplier 1',
+    // },
+    // {
+    //   name: 'Pink Plushy Chair',
+    //   price: 30.99,
+    //   img: 'assets/images/chairs.png',
+    //   category: 'chairs',
+    //   productId: 119,
+    //   description: 'description description description description',
+    //   numberInStock: 10,
+    //   supplierName: 'decor supplier 1',
+    // },
+    // {
+    //   name: 'LAMPS',
+    //   price: 20.99,
+    //   img: 'assets/images/lamps.png',
+    //   category: 'lamps',
+    //   productId: 110,
+    //   description: 'description description description description',
+    //   numberInStock: 10,
+    //   supplierName: 'decor supplier 1',
+    // },
+    // {
+    //   name: 'TABLES',
+    //   price: 20.99,
+    //   img: 'assets/images/tables.png',
+    //   category: 'tables',
+    //   productId: 111,
+    //   description: 'description description description description',
+    //   numberInStock: 10,
+    //   supplierName: 'decor supplier 1',
+    // },
   ];
 }

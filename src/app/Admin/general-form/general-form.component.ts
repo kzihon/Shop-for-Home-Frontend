@@ -10,7 +10,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
 import { Validators } from '@angular/forms';
 import { CategoryService } from '../../services/category.service';
-import { Product } from '../../model';
+import { CategoryType, Product } from '../../model';
 
 @Component({
   selector: 'app-general-form',
@@ -19,21 +19,24 @@ import { Product } from '../../model';
 })
 export class GeneralFormComponent {
   formType: string;
-  categories: string[] = [
-    'tables',
-    'chairs',
-    'lamps',
-    'plants',
-    'decor',
-    'couches',
-    'rugs',
+  categories = [
+    { displayName: 'Chairs', value: CategoryType.CHAIRS },
+    { displayName: 'Couches', value: CategoryType.COUCHES },
+
+    // 'CHAIRS',
+    // CategoryType.COUCHES,
+    // CategoryType.DECOR,
+    // CategoryType.LAMPS,
+    // CategoryType.PLANTS,
+    // CategoryType.RUGS,
+    // CategoryType.TABLE,
   ];
   id: FormControl<number> = new FormControl();
 
   name: FormControl<string> = new FormControl('');
   price: FormControl<number> = new FormControl();
   description: FormControl<string> = new FormControl('');
-  category: string = '';
+  category: CategoryType;
   numberInStock: FormControl<number> = new FormControl();
   supplierName: FormControl<string> = new FormControl('');
   img: FormControl<string> = new FormControl('');
@@ -46,7 +49,7 @@ export class GeneralFormComponent {
     public dialogRef: MatDialogRef<GeneralFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    console.log(this.data);
+    console.log(this.categories);
     this.formType = this.data.formType;
     if (this.formType == 'Edit Product') {
       this.fillFields();
@@ -60,7 +63,7 @@ export class GeneralFormComponent {
     this.description.setValue(this.product.description);
     this.category = this.product.category;
     this.numberInStock.setValue(this.product.numberInStock);
-    this.supplierName.setValue(this.product.supplierName);
+    this.supplierName.setValue(this.product.supplier);
     console.log(this.product);
   }
 
@@ -74,7 +77,7 @@ export class GeneralFormComponent {
       this.name.value == '' ||
       (this.price.value == null && this.price.value <= 0) ||
       this.description.value == '' ||
-      this.category == '' ||
+      this.category == null ||
       (this.numberInStock.value == null && this.numberInStock.value <= 0) ||
       this.supplierName.value == ''
     ) {
@@ -92,23 +95,22 @@ export class GeneralFormComponent {
         .subscribe({
           next: (product) => {
             console.log(product);
+            this.productService.createProductFrontend(product);
           },
           error: (message) => {
             console.log(message);
           },
         });
-
       this.closeDialog();
     }
   }
 
   editProduct() {
-    console.log(this.product.productId, this.product.name);
     if (
       this.name.value == '' ||
       (this.price.value == null && this.price.value <= 0) ||
       this.description.value == '' ||
-      this.category == '' ||
+      this.category == null ||
       (this.numberInStock.value == null && this.numberInStock.value <= 0) ||
       this.supplierName.value == ''
     ) {
@@ -126,6 +128,7 @@ export class GeneralFormComponent {
         )
         .subscribe({
           next: (product) => {
+            this.productService.editProductFrontend(this.product, product);
             console.log(product);
           },
           error: (message) => {

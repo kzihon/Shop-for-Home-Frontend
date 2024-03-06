@@ -24,6 +24,7 @@ export class CartTotalComponent {
   ) {
     // this.cartMap = this.cartService.cart;
     // this.subtotal.set(this.calculateSubtotal());
+    // console.log('testing', this.cartMap().size);
   }
 
   calculateSubtotal() {

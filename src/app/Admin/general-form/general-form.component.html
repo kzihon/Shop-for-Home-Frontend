@@ -23,9 +23,11 @@
     <mat-form-field>
       <mat-label>Category</mat-label>
       <mat-select [(value)]="category" required>
-        <mat-option *ngFor="let category of categories" value="category">{{
-          category
-        }}</mat-option>
+        <mat-option
+          *ngFor="let category of categories"
+          value="category.value"
+          >{{ category.displayName }}</mat-option
+        >
       </mat-select>
     </mat-form-field>
   </div>
