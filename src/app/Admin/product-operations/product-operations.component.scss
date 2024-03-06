@@ -1,3 +1,13 @@
 .action {
   margin: 5%;
 }
+
+.products {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.product {
+  padding: 2%;
+  flex-basis: 21%;
+}

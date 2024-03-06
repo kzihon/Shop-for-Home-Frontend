@@ -7,16 +7,24 @@ export class CartService {
   storageKey: string = 'cart-details';
   // cart: Map<number, number>;
   cart: WritableSignal<Map<number, number>> = signal(null);
+  cartSize: WritableSignal<number> = signal(0);
 
   constructor() {
     this.loadCart();
   }
+
+  getCartSize() {
+    return this.cartSize();
+  }
+
   loadCart() {
     const cartStringified = this.getSavedCart();
     if (cartStringified == null) {
       this.cart.set(new Map<number, number>());
+      this.cartSize.set(0);
     } else {
       this.cart.set(new Map(JSON.parse(cartStringified)));
+      this.cartSize.set(this.cart().size);
     }
   }
 
@@ -32,6 +40,8 @@ export class CartService {
     } else {
       this.cart().set(productId, quantity);
     }
+    this.cartSize.set(this.cart().size);
+    console.log(this.cartSize(), this.cart().size);
     localStorage.setItem(this.storageKey, JSON.stringify([...this.cart()]));
   }
 

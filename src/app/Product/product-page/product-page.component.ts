@@ -32,7 +32,7 @@ export class ProductPageComponent {
   }
 
   addToCart() {
-    this.cartService.addToCart(this.product.id, this.quantity);
+    this.cartService.addToCart(this.product.productId, this.quantity);
   }
 
   increase() {

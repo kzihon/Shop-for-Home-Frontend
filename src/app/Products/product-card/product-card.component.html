@@ -1,6 +1,6 @@
 <div class="productCard">
   <a
-    [routerLink]="['/product', product.id]"
+    [routerLink]="['/product', product.productId]"
     routerLinkActive="active"
     [routerLinkActiveOptions]="{ exact: true }"
   >
@@ -13,6 +13,6 @@
     <p>{{ product.price }}</p>
   </a>
   <app-product-wishlist-button
-    [productId]="product.id"
+    [productId]="product.productId"
   ></app-product-wishlist-button>
 </div>

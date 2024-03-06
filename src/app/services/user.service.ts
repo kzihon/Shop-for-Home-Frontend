@@ -90,7 +90,6 @@ export class UserService {
   }
 
   isInWishlist(productId: number) {
-    console.log(productId, this.user.wishlist.includes(productId));
     return this.user.wishlist.includes(productId);
   }
 

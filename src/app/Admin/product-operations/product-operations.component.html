@@ -5,12 +5,33 @@
   </div>
   <hr />
   <div class="action">
-    <h2>UPDATE PRODUCT</h2>
-    <button (click)="openCreateProduct()">UPDATE</button>
+    <h2>EDIT PRODUCTS</h2>
+    <section class="products">
+      <div *ngFor="let product of products" class="product">
+        <div class="productCard">
+          <img src="{{ product.img }}" alt="" class="img" />
+          <p>{{ product.name }}</p>
+        </div>
+        <div>
+          <button (click)="openEditProduct(product)">EDIT</button>
+          <button (click)="deleteProduct(product.productId)">DELETE</button>
+        </div>
+      </div>
+    </section>
   </div>
-  <hr />
   <div class="action">
-    <h2>DELETE PRODUCT</h2>
-    <button (click)="openDeleteProduct()">DELETE</button>
+    <h2>EDIT PRODUCTS</h2>
+    <section class="products">
+      <div *ngFor="let product of productsSignal()" class="product">
+        <div class="productCard">
+          <img src="{{ product.img }}" alt="" class="img" />
+          <p>{{ product.name }}</p>
+        </div>
+        <div>
+          <button (click)="openEditProduct(product)">EDIT</button>
+          <button (click)="deleteProduct(product.productId)">DELETE</button>
+        </div>
+      </div>
+    </section>
   </div>
 </div>
