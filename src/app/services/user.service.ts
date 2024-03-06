@@ -4,10 +4,21 @@ import { Subject } from 'rxjs';
 import { ProductService } from './product.service';
 import { CartService } from './cart.service';
 
+interface IUser {
+  id: number;
+  email: string;
+  firstname: string;
+  lastname: string;
+  role: 'ADMIN' | 'CUSTOMER';
+  wishlist?: Array<any>; // any is IProduct interface
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  private TOKEN = 'token';
+
   emptyUser: User = {
     id: null,
     firstName: '',
@@ -62,12 +73,33 @@ export class UserService {
     return this.isAdmin;
   }
 
-  signIn(email: string, password: string) {
-    // do authentication here
-    this.user = this.getUserByEmail(email);
+  get token(): string | null {
+    return localStorage.getItem(this.TOKEN);
+  }
+
+  setToken(token: string): void {
+    localStorage.removeItem(this.TOKEN);
+    localStorage.setItem(this.TOKEN, token);
+  }
+
+  signIn(bearerToken: string, userDetails: IUser) {
+    this.user = {
+      id: null,
+      firstName: userDetails.firstname,
+      lastName: userDetails.lastname,
+      email: userDetails.email,
+      password: '', // delete
+      isAdmin: userDetails.role === 'ADMIN',
+      cart: null,
+      wishlist: userDetails.wishlist,
+    };
+
+    // this.user = this.getUserByEmail(email)
     this.loggedIn.set(this.user.firstName == '' ? false : true);
-    this.isAdmin.set(this.user.isAdmin == true ? true : false);
+    this.isAdmin.set(this.user.isAdmin);
     localStorage.setItem(this.storageKey, JSON.stringify(this.user));
+
+    this.setToken(bearerToken);
   }
 
   logout() {
@@ -78,6 +110,8 @@ export class UserService {
     this.loggedIn.set(false);
     this.isAdmin.set(false);
     localStorage.removeItem(this.storageKey);
+
+    localStorage.removeItem(this.TOKEN);
   }
 
   getUserByEmail(email: string) {
@@ -90,6 +124,7 @@ export class UserService {
   }
 
   isInWishlist(productId: number) {
+    console.log(productId, this.user.wishlist.includes(productId));
     return this.user.wishlist.includes(productId);
   }
 

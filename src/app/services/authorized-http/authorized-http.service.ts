@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { env } from '../env';
+import { env } from '../../env';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { UserService } from '../user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthorizedHttpService {
-  private TOKEN = env.TEMP_TOKEN;
   private BASE_SERVER_URI = env.SERVER_URI;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private userService: UserService) {}
 
   public get(url: string, options?: any) {
     return this.http.get(this.BASE_SERVER_URI + url, {
@@ -42,9 +42,6 @@ export class AuthorizedHttpService {
   private get authorizedHeader(): HttpHeaders {
     let authHeaders: HttpHeaders = new HttpHeaders();
 
-    return authHeaders.set(
-      'Authorization',
-      `Bearer ${/* this.authlocalStorageService.token  */ this.TOKEN}`
-    );
+    return authHeaders.set('Authorization', `Bearer ${this.userService.token}`);
   }
 }

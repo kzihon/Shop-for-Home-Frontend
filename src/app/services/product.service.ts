@@ -3,7 +3,7 @@ import { CategoryType, Product } from '../model';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { env } from '../env';
-import { AuthorizedHttpService } from './authorized-http.service';
+import { AuthorizedHttpService } from './authorized-http/authorized-http.service';
 
 @Injectable({
   providedIn: 'root',
