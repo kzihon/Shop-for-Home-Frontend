@@ -61,11 +61,11 @@ export class SignInDialogComponent implements OnInit {
       next: role => {
         // @TODO customer dashboard if customer?
         this.router.navigateByUrl(role === 'ADMIN' ? '/admin' : '/')
-
+        this.dialogRef.close()
         this.loginForm.reset()
       },
       error: errorMessage => {
-        this.snackBar.open(errorMessage, 'Close', {
+        this.snackBar.open(errorMessage || 'Uknown error occured.', 'Close', {
           duration: 5000,
           verticalPosition: 'top',
           panelClass: 'error-snackbar'

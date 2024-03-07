@@ -32,7 +32,7 @@ export class AuthorizedHttpService {
           if (event instanceof HttpResponse) {
             return event.body as T
           }
-          // Handle other types of events if needed
+
           return null
         })
       )
@@ -49,7 +49,7 @@ export class AuthorizedHttpService {
           if (event instanceof HttpResponse) {
             return event.body as T
           }
-          // Handle other types of events if needed
+
           return null
         })
       )
@@ -66,7 +66,7 @@ export class AuthorizedHttpService {
           if (event instanceof HttpResponse) {
             return event.body as T
           }
-          // Handle other types of events if needed
+
           return null
         })
       )
@@ -83,7 +83,7 @@ export class AuthorizedHttpService {
           if (event instanceof HttpResponse) {
             return event.body as T
           }
-          // Handle other types of events if needed
+
           return null
         })
       )

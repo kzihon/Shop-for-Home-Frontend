@@ -68,7 +68,7 @@ export class SignUpDialogComponent {
         this.registerForm.reset()
       },
       error: errorMessage => {
-        this.snackBar.open(errorMessage, 'Close', {
+        this.snackBar.open(errorMessage || 'Uknown error occured.', 'Close', {
           duration: 5000,
           verticalPosition: 'top',
           panelClass: 'error-snackbar'
