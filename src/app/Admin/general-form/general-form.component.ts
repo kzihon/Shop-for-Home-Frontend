@@ -1,23 +1,22 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core'
 import {
   MatDialogRef,
   MatDialog,
   MatDialogConfig,
-  MAT_DIALOG_DATA,
-} from '@angular/material/dialog';
-import { UserService } from '../../services/user.service';
-import { FormControl, FormGroup } from '@angular/forms';
-import { ProductService } from '../../services/product.service';
-import { Validators } from '@angular/forms';
-import { CategoryService } from '../../services/category.service';
+  MAT_DIALOG_DATA
+} from '@angular/material/dialog'
+import { FormControl, FormGroup } from '@angular/forms'
+import { ProductService } from '../../services/product.service'
+import { Validators } from '@angular/forms'
+import { CategoryService } from '../../services/category.service'
 
 @Component({
   selector: 'app-general-form',
   templateUrl: './general-form.component.html',
-  styleUrl: './general-form.component.scss',
+  styleUrl: './general-form.component.scss'
 })
 export class GeneralFormComponent {
-  formType: string;
+  formType: string
   categories: string[] = [
     'tables',
     'chairs',
@@ -25,35 +24,35 @@ export class GeneralFormComponent {
     'plants',
     'decor',
     'couches',
-    'rugs',
-  ];
-  id: FormControl<number> = new FormControl();
+    'rugs'
+  ]
+  id: FormControl<number> = new FormControl()
 
-  name: FormControl<string> = new FormControl('');
-  price: FormControl<number> = new FormControl();
-  description: FormControl<string> = new FormControl('');
-  category: string = '';
-  numberInStock: FormControl<number> = new FormControl();
-  supplierName: FormControl<string> = new FormControl('');
-  img: FormControl<string> = new FormControl('');
+  name: FormControl<string> = new FormControl('')
+  price: FormControl<number> = new FormControl()
+  description: FormControl<string> = new FormControl('')
+  category: string = ''
+  numberInStock: FormControl<number> = new FormControl()
+  supplierName: FormControl<string> = new FormControl('')
+  img: FormControl<string> = new FormControl('')
 
-  email = new FormControl('');
+  email = new FormControl('')
 
-  constructor(
+  constructor (
     private productService: ProductService,
     public dialogRef: MatDialogRef<GeneralFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    console.log(this.data);
-    this.formType = this.data.formType;
+    console.log(this.data)
+    this.formType = this.data.formType
   }
 
-  closeDialog() {
-    this.dialogRef.close();
+  closeDialog () {
+    this.dialogRef.close()
   }
-  selectCategory() {}
+  selectCategory () {}
 
-  createProduct() {
+  createProduct () {
     if (
       this.name.value == '' ||
       (this.price.value == null && this.price.value <= 0) ||
@@ -62,7 +61,7 @@ export class GeneralFormComponent {
       (this.numberInStock.value == null && this.numberInStock.value <= 0) ||
       this.supplierName.value == ''
     ) {
-      console.log('fill out required fields');
+      console.log('fill out required fields')
     } else {
       this.productService
         .createProduct(
@@ -74,15 +73,15 @@ export class GeneralFormComponent {
           this.supplierName.value
         )
         .subscribe({
-          next: (product) => {
-            console.log(product);
+          next: product => {
+            console.log(product)
           },
-          error: (message) => {
-            console.log(message);
-          },
-        });
+          error: message => {
+            console.log(message)
+          }
+        })
 
-      this.closeDialog();
+      this.closeDialog()
     }
   }
 

@@ -2,25 +2,22 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Observable, throwError } from 'rxjs'
 import { catchError, map } from 'rxjs/operators'
+import { AuthLocalStorageService } from '../auth-local-storage/auth-local-storage.service'
 import { env } from '../../env'
-import { UserService } from '../user.service'
-/* import { AuthLocalStorageService } from '../auth-local-storage/auth-local-storage.service' */
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor (private http: HttpClient, private userService: UserService) {}
+  constructor (
+    private http: HttpClient,
+    private authlocalStorageService: AuthLocalStorageService
+  ) {}
 
-  public register (signupDTO: any): Observable<any> {
+  public register (registerDetails: any): Observable<any> {
     return this.http
-      .post(env.SERVER_URI + '/customer/register', signupDTO)
-      .pipe(
-        map(response => {
-          console.log(response)
-        }),
-        catchError(this.handleError)
-      )
+      .post(env.SERVER_URI + '/customer/', registerDetails)
+      .pipe(catchError(this.handleError))
   }
 
   public login (email: string, password: string): Observable<any> {
@@ -37,7 +34,7 @@ export class AuthService {
 
           const userDetails = (response.body as any).user
 
-          this.userService.signIn(bearerToken, userDetails)
+          this.authlocalStorageService.signIn(bearerToken, userDetails)
 
           return userDetails.role
         }),
@@ -49,15 +46,12 @@ export class AuthService {
     const logoutUrl = `${env.SERVER_URI}/auth/logout`
 
     return this.http.post(logoutUrl, {}).pipe(
-      map(() => {
-        this.userService.logout()
-      }),
+      map(() => this.authlocalStorageService.signout()),
       catchError(this.handleError)
     )
   }
 
   private handleError ({ error }: HttpErrorResponse) {
-    console.log({ error })
     return throwError(() => error.message)
   }
 }
