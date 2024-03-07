@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core'
-import { env } from '../../env'
 import { AuthLocalStorageService } from '../auth-local-storage/auth-local-storage.service'
 import { Observable, of } from 'rxjs'
 import { Product } from '../../model'
@@ -30,8 +29,8 @@ export class WishlistService {
 
     const customerId = this.authLocalStorageService.userDetails.id
     // @DeleteMapping("/{customer_id}/wish_list/{property_id}")
-    // @TODO fix
-    const endpoint = `/customer/${customerId}/wish_list/property_id?;`
+    // @Q  is property_id productId?
+    const endpoint = `/customer/${customerId}/wish_list/${productId};`
     return this.authorizedHttpService.delete(endpoint)
   }
 

@@ -9,7 +9,6 @@ import {
   MatDialogConfig
 } from '@angular/material/dialog'
 import { SignInPageComponent } from '../sign-in-page/sign-in-page.component'
-// import { UserService } from '../../services/user.service'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { SignUpDialogComponent } from '../sign-up-dialog/sign-up-dialog.component'
 import { AuthService } from '../../services/auth/auth.service'
@@ -34,10 +33,22 @@ export class SignInDialogComponent implements OnInit {
   ) {}
 
   ngOnInit (): void {
-    this.loginForm = this.fb.group({
+    /* this.loginForm = this.fb.group({
       email: ['', [Validators.required]],
       password: ['', [Validators.required]]
+    }) */
+
+    // @TEST ADMIN
+    this.loginForm = this.fb.group({
+      email: ['admin@test.com', [Validators.required]],
+      password: ['admin', [Validators.required]]
     })
+
+    // @TEST CUSTOMER
+    // this.loginForm = this.fb.group({
+    //   email: ['gago@test.com', [Validators.required]],
+    //   password: ['gago', [Validators.required]]
+    // })
   }
 
   openSignUpDialog () {
@@ -59,7 +70,6 @@ export class SignInDialogComponent implements OnInit {
 
     this.authService.login(email, password).subscribe({
       next: role => {
-        // @TODO customer dashboard if customer?
         this.router.navigateByUrl(role === 'ADMIN' ? '/admin' : '/')
         this.dialogRef.close()
         this.loginForm.reset()

@@ -32,10 +32,7 @@ import { CartButtonComponent } from './Buttons/cart-button/cart-button.component
 import { WishlistButtonComponent } from './Buttons/wishlist-button/wishlist-button.component'
 import { CartItemComponent } from './Cart/cart-item/cart-item.component'
 import { CartTotalComponent } from './Cart/cart-total/cart-total.component'
-import { AdminPageComponent } from './Admin/admin-page/admin-page.component'
-import { UserOperationsComponent } from './Admin/user-operations/user-operations.component'
 import { SignUpDialogComponent } from './Login/sign-up-dialog/sign-up-dialog.component'
-import { ProductOperationsComponent } from './Admin/product-operations/product-operations.component'
 import { QuantityComponentComponent } from './Buttons/quantity-component/quantity-component.component'
 import { ButtonComponentComponent } from './Buttons/button-component/button-component.component'
 import { GeneralFormComponent } from './Admin/general-form/general-form.component'
@@ -63,10 +60,7 @@ import { RoundPricePipe } from './pipes/round-price/round-price.pipe'
     WishlistButtonComponent,
     CartItemComponent,
     CartTotalComponent,
-    AdminPageComponent,
-    UserOperationsComponent,
     SignUpDialogComponent,
-    ProductOperationsComponent,
     QuantityComponentComponent,
     ButtonComponentComponent,
     GeneralFormComponent,
