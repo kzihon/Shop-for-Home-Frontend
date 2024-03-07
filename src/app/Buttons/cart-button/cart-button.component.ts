@@ -1,8 +1,7 @@
-import { Component, Signal, computed } from '@angular/core';
-import { AppService } from '../../app.service';
-import { UserService } from '../../services/user.service';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { SignInDialogComponent } from '../../Login/sign-in-dialog/sign-in-dialog.component';
+import { Component, Signal, computed } from '@angular/core'
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
+import { SignInDialogComponent } from '../../Login/sign-in-dialog/sign-in-dialog.component'
+import { AuthLocalStorageService } from '../../services/auth-local-storage/auth-local-storage.service'
 
 @Component({
   selector: 'app-cart-button',
@@ -10,15 +9,20 @@ import { SignInDialogComponent } from '../../Login/sign-in-dialog/sign-in-dialog
   styleUrl: './cart-button.component.scss'
 })
 export class CartButtonComponent {
-  loggedIn: Signal<boolean> = computed(() => this.userService.loggedIn())
+  loggedIn: Signal<boolean> = computed(() =>
+    this.authLocalStorageService.isAuthenticated()
+  )
 
-  constructor(private userService: UserService, private dialog: MatDialog) {}
+  constructor (
+    private dialog: MatDialog,
+    private authLocalStorageService: AuthLocalStorageService
+  ) {}
 
-  openSignInDialog() {
-    const dialogConfig = new MatDialogConfig();
-        dialogConfig.width = "60%";
-        dialogConfig.height = "60%";
-  
-        this.dialog.open(SignInDialogComponent, dialogConfig);
+  openSignInDialog () {
+    const dialogConfig = new MatDialogConfig()
+    dialogConfig.width = '60%'
+    dialogConfig.height = '60%'
+
+    this.dialog.open(SignInDialogComponent, dialogConfig)
   }
 }

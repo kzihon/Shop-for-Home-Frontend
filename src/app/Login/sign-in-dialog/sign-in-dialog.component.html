@@ -3,7 +3,6 @@
         <mat-icon (click)="closeDialog()" routerLink="/home" class="close">close</mat-icon>
         <div class="header">
             <h2 class="title">Sign In To Continue</h2>
-
         </div>
         <div [formGroup]="loginForm" validateForm class="form">
             <div>
@@ -20,10 +19,8 @@
             </div>
 
         </div>
-        <button (click)="signIn()">SIGN IN</button>
-        <!-- <a routerLink="/home" (click)="signIn()">
-            SIGN IN
-        </a> -->
+        <button mat-raised-button color="primary" (click)="signIn()">SIGN IN</button>
+
         <p>
             Don't have an account? <a routerLink="/signUp" (click)="openSignUpDialog()">
                 SIGN UP

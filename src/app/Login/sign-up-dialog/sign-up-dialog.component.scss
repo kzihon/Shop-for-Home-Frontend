@@ -1,16 +1,22 @@
 .dialog {
-    text-align: center;
-    padding: 10%;
-    justify-content: center;
-    align-items: center;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
 }
 
 .header {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .close {
-    float: right;
-    outline: none;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  outline: none;
+}
+
+button {
+  margin-bottom: 2rem;
 }

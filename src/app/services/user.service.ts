@@ -4,7 +4,7 @@ import { Subject } from 'rxjs'
 import { ProductService } from './product.service'
 import { CartService } from './cart.service'
 
-interface IUser {
+interface IUserResponse {
   id: number
   email: string
   firstname: string
@@ -82,7 +82,7 @@ export class UserService {
     localStorage.setItem(this.TOKEN, token)
   }
 
-  signIn (bearerToken: string, userDetails: IUser) {
+  signIn (bearerToken: string, userDetails: IUserResponse) {
     this.user = {
       id: null,
       firstName: userDetails.firstname,

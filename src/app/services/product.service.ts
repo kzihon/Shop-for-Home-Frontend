@@ -1,51 +1,53 @@
-import { Injectable } from '@angular/core';
-import { Product } from '../model';
-import { Observable, catchError, map, throwError } from 'rxjs';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { env } from '../env';
+import { Injectable } from '@angular/core'
+import { Product } from '../model'
+import { Observable, catchError, map, throwError } from 'rxjs'
+import { HttpClient, HttpErrorResponse } from '@angular/common/http'
+import { env } from '../env'
+import { AuthLocalStorageService } from './auth-local-storage/auth-local-storage.service'
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ProductService {
-  constructor(
+  constructor (
     private http: HttpClient // private localStorageService: LocalStorageService
   ) {}
-  getProducts() {
-    return this.products;
+
+  getProducts () {
+    return this.products
   }
 
-  getProductsByCategory(category: string) {
+  getProductsByCategory (category: string) {
     if (category === 'all products') {
-      return this.products;
+      return this.products
     }
-    return this.products.filter((product) => product.category === category);
+    return this.products.filter(product => product.category === category)
   }
 
-  getProductsByIds(productIds: number[]) {
-    return this.products.filter((product) => productIds.includes(product.id));
+  getProductsByIds (productIds: number[]) {
+    // return this.products.filter((product) => productIds.includes(product.id));
   }
 
   // fix this helper func
-  getProductById(id: number) {
+  getProductById (id: number) {
     for (var product of this.products) {
       if (product.id == id) {
-        return product;
+        return product
       }
     }
-    console.log('cant find product');
+    console.log('cant find product')
   }
 
-  getProductByName(name: string) {
-    return this.products.filter((product) => product.name === name)[0];
+  getProductByName (name: string) {
+    return this.products.filter(product => product.name === name)[0]
   }
 
-  createProduct1(name: string) {
-    console.log('creating product: ', name);
+  createProduct1 (name: string) {
+    console.log('creating product: ', name)
     // make call to backend
   }
 
-  public createProduct(
+  public createProduct (
     name: string,
     price: number,
     description: string,
@@ -62,15 +64,15 @@ export class ProductService {
         { observe: 'response' }
       )
       .pipe(
-        map((response) => {
-          console.log(response);
-          const productDetails = (response.body as any).name;
+        map(response => {
+          console.log(response)
+          const productDetails = (response.body as any).name
 
           // const product = productDetails.name
-          return productDetails;
+          return productDetails
         }),
         catchError(this.handleError)
-      );
+      )
   }
 
   // public deleteProduct(id: number): Observable<any> {
@@ -86,9 +88,9 @@ export class ProductService {
   //       catchError(this.handleError)
   //     );
   // }
-  private handleError({ error }: HttpErrorResponse) {
-    console.log({ error });
-    return throwError(() => error.message);
+  private handleError ({ error }: HttpErrorResponse) {
+    console.log({ error })
+    return throwError(() => error.message)
   }
 
   private products: Product[] = [
@@ -100,7 +102,7 @@ export class ProductService {
       id: 1,
       description: 'description description description description',
       numberInStock: 10,
-      supplierName: 'decor supplier 1',
+      supplierName: 'decor supplier 1'
     },
     {
       name: 'Pink Plushy Chair',
@@ -110,7 +112,7 @@ export class ProductService {
       id: 2,
       description: 'description description description description',
       numberInStock: 10,
-      supplierName: 'decor supplier 1',
+      supplierName: 'decor supplier 1'
     },
     {
       name: 'Pink Plushy Chair',
@@ -120,7 +122,7 @@ export class ProductService {
       id: 3,
       description: 'description description description description',
       numberInStock: 10,
-      supplierName: 'decor supplier 1',
+      supplierName: 'decor supplier 1'
     },
     {
       name: 'Pink Heart Chair',
@@ -130,7 +132,7 @@ export class ProductService {
       id: 4,
       description: 'description description description description',
       numberInStock: 10,
-      supplierName: 'decor supplier 1',
+      supplierName: 'decor supplier 1'
     },
     {
       name: 'Pink Heart Chair',
@@ -140,7 +142,7 @@ export class ProductService {
       id: 5,
       description: 'description description description description',
       numberInStock: 10,
-      supplierName: 'decor supplier 1',
+      supplierName: 'decor supplier 1'
     },
     {
       name: 'LAMPS',
@@ -150,7 +152,7 @@ export class ProductService {
       id: 6,
       description: 'description description description description',
       numberInStock: 10,
-      supplierName: 'decor supplier 1',
+      supplierName: 'decor supplier 1'
     },
     {
       name: 'TABLES',
@@ -160,7 +162,7 @@ export class ProductService {
       id: 7,
       description: 'description description description description',
       numberInStock: 10,
-      supplierName: 'decor supplier 1',
+      supplierName: 'decor supplier 1'
     },
     {
       name: 'TABLES',
@@ -170,7 +172,7 @@ export class ProductService {
       id: 8,
       description: 'description description description description',
       numberInStock: 10,
-      supplierName: 'decor supplier 1',
+      supplierName: 'decor supplier 1'
     },
     {
       name: 'Pink Plushy Chair',
@@ -180,7 +182,7 @@ export class ProductService {
       id: 9,
       description: 'description description description description',
       numberInStock: 10,
-      supplierName: 'decor supplier 1',
+      supplierName: 'decor supplier 1'
     },
     {
       name: 'LAMPS',
@@ -190,7 +192,7 @@ export class ProductService {
       id: 10,
       description: 'description description description description',
       numberInStock: 10,
-      supplierName: 'decor supplier 1',
+      supplierName: 'decor supplier 1'
     },
     {
       name: 'TABLES',
@@ -200,7 +202,7 @@ export class ProductService {
       id: 11,
       description: 'description description description description',
       numberInStock: 10,
-      supplierName: 'decor supplier 1',
-    },
-  ];
+      supplierName: 'decor supplier 1'
+    }
+  ]
 }

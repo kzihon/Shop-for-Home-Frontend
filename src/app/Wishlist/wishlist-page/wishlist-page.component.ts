@@ -1,26 +1,27 @@
-import { Component } from '@angular/core';
-import { Product } from '../../model';
-import { UserService } from '../../services/user.service';
-import { ProductService } from '../../services/product.service';
+import { Component, OnInit } from '@angular/core'
+import { Product } from '../../model'
+import { ProductService } from '../../services/product.service'
+import { AuthLocalStorageService } from '../../services/auth-local-storage/auth-local-storage.service'
+import { WishlistService } from '../../services/wishlist/wishlist.service'
 
 @Component({
   selector: 'app-wishlist-page',
   templateUrl: './wishlist-page.component.html',
-  styleUrl: './wishlist-page.component.scss',
+  styleUrl: './wishlist-page.component.scss'
 })
-export class WishlistPageComponent {
-  public productIds: number[];
-  public products: Product[];
+export class WishlistPageComponent implements OnInit {
+  public wishlist: Product[] = []
 
-  constructor(
-    userService: UserService,
-    private productService: ProductService
-  ) {
-    this.productIds = userService.user.wishlist;
-    this.loadProducts(this.productIds);
+  constructor (private wishlistService: WishlistService) {}
+
+  ngOnInit (): void {
+    this.getCustomerWishlist()
   }
 
-  loadProducts(productIds: number[]) {
-    this.products = this.productService.getProductsByIds(this.productIds);
+  getCustomerWishlist () {
+    this.wishlistService.getWishlist().subscribe({
+      next: (wishlist: Product[]) => (this.wishlist = wishlist),
+      error: error => console.error({ error })
+    })
   }
 }

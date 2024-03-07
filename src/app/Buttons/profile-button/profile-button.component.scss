@@ -6,3 +6,25 @@
 // .menuLink {
 //     font-family: 'Poppins-light';
 // }
+
+.auth-button-group * {
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
+}
+
+.auth-button-group *:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(#212121, 0.1); /* Change the color as needed */
+  transition: all 0.3s ease; /* Adjust the transition duration and easing as needed */
+}
+
+.auth-button-group *:hover:before {
+  width: 100%;
+  background-color: rgba(#212121, 0.5);
+}
