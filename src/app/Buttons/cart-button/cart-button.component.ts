@@ -12,7 +12,8 @@ import { CartService } from '../../services/cart.service';
 })
 export class CartButtonComponent {
   loggedIn: Signal<boolean> = computed(() => this.userService.loggedIn());
-  cartSize: Signal<number> = computed(() => this.cartService.getCartSize());
+  isAdmin: Signal<boolean> = computed(() => this.userService.isAdmin());
+  cartSize: Signal<number> = computed(() => this.cartService.cartSize());
 
   constructor(
     private userService: UserService,

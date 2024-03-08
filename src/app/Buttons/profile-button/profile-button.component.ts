@@ -8,34 +8,34 @@ import { SignUpDialogComponent } from '../../Login/sign-up-dialog/sign-up-dialog
 @Component({
   selector: 'app-profile-button',
   templateUrl: './profile-button.component.html',
-  styleUrl: './profile-button.component.scss'
+  styleUrl: './profile-button.component.scss',
 })
 export class ProfileButtonComponent {
   isAdmin: Signal<boolean> = computed(() => this.userService.isAdmin());
-  loggedIn: Signal<boolean> = computed(() => this.userService.loggedIn())
+  loggedIn: Signal<boolean> = computed(() => this.userService.loggedIn());
 
+  constructor(private userService: UserService, private dialog: MatDialog) {
+    console.log(this.isAdmin(), this.loggedIn());
+  }
 
-constructor(private userService: UserService, private dialog: MatDialog) {}
+  openSignInDialog() {
+    console.log('trying to open dialog');
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = '60%';
+    dialogConfig.height = '60%';
 
-openSignInDialog() {
-  const dialogConfig = new MatDialogConfig();
-      dialogConfig.width = "60%";
-      dialogConfig.height = "60%";
+    this.dialog.open(SignInDialogComponent, dialogConfig);
+  }
 
-      this.dialog.open(SignInDialogComponent, dialogConfig);
+  openSignUpDialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = '60%';
+    dialogConfig.height = '80%';
 
-}
+    this.dialog.open(SignUpDialogComponent, dialogConfig);
+  }
 
-openSignUpDialog() {
-  const dialogConfig = new MatDialogConfig();
-      dialogConfig.width = "60%";
-      dialogConfig.height = "80%";
-
-      this.dialog.open(SignUpDialogComponent, dialogConfig);
-
-}
-
-logout() {
-  this.userService.logout();
-}
+  logout() {
+    this.userService.logout();
+  }
 }

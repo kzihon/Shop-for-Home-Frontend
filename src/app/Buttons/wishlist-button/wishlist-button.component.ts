@@ -7,21 +7,19 @@ import { SignInDialogComponent } from '../../Login/sign-in-dialog/sign-in-dialog
 @Component({
   selector: 'app-wishlist-button',
   templateUrl: './wishlist-button.component.html',
-  styleUrl: './wishlist-button.component.scss'
+  styleUrl: './wishlist-button.component.scss',
 })
 export class WishlistButtonComponent {
-  // isAdmin: Signal<boolean> = computed(() => this.userService.isAdmin());
-  loggedIn: Signal<boolean> = computed(() => this.userService.loggedIn())
+  isAdmin: Signal<boolean> = computed(() => this.userService.isAdmin());
+  loggedIn: Signal<boolean> = computed(() => this.userService.loggedIn());
 
   constructor(private userService: UserService, private dialog: MatDialog) {}
 
   openSignInDialog() {
     const dialogConfig = new MatDialogConfig();
-        dialogConfig.width = "60%";
-        dialogConfig.height = "60%";
+    dialogConfig.width = '60%';
+    dialogConfig.height = '60%';
 
-  
-        this.dialog.open(SignInDialogComponent, dialogConfig);
-  
+    this.dialog.open(SignInDialogComponent, dialogConfig);
   }
 }

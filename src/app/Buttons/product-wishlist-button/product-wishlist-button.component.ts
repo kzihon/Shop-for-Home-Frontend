@@ -14,11 +14,15 @@ export class ProductWishlistButtonComponent {
 
   inWishlist: boolean;
   loggedIn: Signal<boolean> = computed(() => this.userService.loggedIn());
+  isAdmin: Signal<boolean> = computed(() => this.userService.isAdmin());
 
   constructor(private userService: UserService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.inWishlist = this.userService.isInWishlist(this.productId);
+    this.inWishlist =
+      this.isAdmin() || !this.loggedIn()
+        ? null
+        : this.userService.isInWishlist(this.productId);
   }
 
   heartClick() {

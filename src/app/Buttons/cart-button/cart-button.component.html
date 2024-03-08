@@ -1,16 +1,17 @@
-<!-- <div *ngIf="loggedIn() == false">
-    <a (click)="openSignInDialog()">        
-        <span class="material-icons-outlined">shopping_cart</span>
-    </a>
+<div *ngIf="loggedIn() == false">
+  <a (click)="openSignInDialog()">
+    <span class="material-icons-outlined">shopping_cart</span>
+  </a>
 </div>
 
-<div *ngIf="loggedIn() == true"> -->
-<a routerLink="/cart">
-  <div class="button">
-    <span [ngClass]="{ 'material-icons-outlined': true, 'icon-class': true }"
-      >shopping_cart</span
-    >
-    <p class="cartSize">{{ cartSize() }}</p>
-  </div>
-</a>
-<!-- </div> -->
+<div *ngIf="loggedIn() == true && isAdmin() == false">
+  <a routerLink="/cart">
+    <div class="button">
+      <span [ngClass]="{ 'material-icons-outlined': true, 'icon-class': true }"
+        >shopping_cart</span
+      >
+
+      <p class="cartSize" *ngIf="this.cartSize() > 0">{{ cartSize() }}</p>
+    </div>
+  </a>
+</div>
