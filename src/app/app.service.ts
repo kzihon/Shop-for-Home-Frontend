@@ -1,26 +1,25 @@
 import { Injectable } from '@angular/core'
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
-
 export class AppService {
-    loggedIn: boolean = false;
-    admin: boolean = false;
+  loggedIn: boolean = false
+  admin: boolean = false
 
-    setLoggedIn(loggedIn: boolean) {
-        this.loggedIn = loggedIn;
-    }
+  setLoggedIn (loggedIn: boolean) {
+    this.loggedIn = loggedIn
+  }
 
-    getLoggedIn() {
-        return this.loggedIn;
-    }
+  getLoggedIn () {
+    return this.loggedIn
+  }
 
-    setAdmin(admin: boolean) {
-        this.admin = admin;
-    }
+  setAdmin (admin: boolean) {
+    this.admin = admin
+  }
 
-    getAdmin() {
-        return this.admin;
-    }
+  getAdmin () {
+    return this.admin
+  }
 }

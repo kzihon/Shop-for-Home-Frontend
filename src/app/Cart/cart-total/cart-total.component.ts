@@ -18,7 +18,6 @@ export class CartTotalComponent {
   // subtotal: number;
 
   constructor(
-    private userService: UserService,
     private cartService: CartService,
     private productService: ProductService
   ) {

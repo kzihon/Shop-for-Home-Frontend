@@ -1,46 +1,46 @@
-
 <mat-dialog-content>
-    <div class="dialog">
-        <mat-icon (click)="closeDialog()" routerLink="/home" class="close">close</mat-icon>
-        <div class="header">
-            <h2 class="title">Sign Up</h2>
-        </div>
-        <div class="form">
-            
-            
-            <div>
-                <mat-form-field class="example-full-width">
-                <mat-label>Email</mat-label>
-                <input matInput placeholder="example@mail.com" [formControl]="email">
-              </mat-form-field>
-            </div>
-            <div>
-                <mat-form-field class="example-full-width">
-                <mat-label>First Name</mat-label>
-                <input matInput placeholder="" >
-              </mat-form-field>
-            </div>
-            <div>
-                <mat-form-field class="example-full-width">
-                <mat-label>Last Name</mat-label>
-                <input matInput placeholder="">
-              </mat-form-field>
-            </div>
-            <div>
-                <mat-form-field class="example-full-width">
-                <mat-label>Password</mat-label>
-                <input matInput placeholder="">
-              </mat-form-field>
-            </div>
-              
-        </div>
-        <a routerLink="/home" (click)="signIn()">
-            SIGN UP
-        </a>
-        <p>
-            Already have an account? <a routerLink="/signIn" (click)="openSignInDialog()">
-            SIGN IN
-        </a>
-        
+  <div class="dialog">
+    <mat-icon (click)="closeDialog()" routerLink="/home" class="close">close</mat-icon>
+    <div class="header">
+      <h2 class="title">Sign Up</h2>
     </div>
+    <div [formGroup]="registerForm" validateForm class="form">
+
+
+      <div>
+        <mat-form-field class="example-full-width">
+          <mat-label>Email</mat-label>
+          <input matInput placeholder="example@mail.com" formControlName="email">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="example-full-width">
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="firstname">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="example-full-width">
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="lastname">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="example-full-width">
+          <mat-label>Password</mat-label>
+          <input matInput formControlName="password">
+        </mat-form-field>
+      </div>
+
+
+    </div>
+    <button mat-raised-button color="primary" (click)="register()">
+      SIGN UP
+    </button>
+    <p>
+      Already have an account? <a routerLink="/signIn" (click)="openSignInDialog()">
+        SIGN IN
+      </a>
+
+  </div>
 </mat-dialog-content>

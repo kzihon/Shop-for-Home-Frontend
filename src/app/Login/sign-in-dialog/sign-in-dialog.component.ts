@@ -9,7 +9,6 @@ import {
   MatDialogConfig,
 } from '@angular/material/dialog';
 import { SignInPageComponent } from '../sign-in-page/sign-in-page.component';
-import { UserService } from '../../services/user.service';
 import {
   FormBuilder,
   FormControl,
@@ -19,6 +18,7 @@ import {
 import { SignUpDialogComponent } from '../sign-up-dialog/sign-up-dialog.component';
 import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-sign-in-dialog',
@@ -30,7 +30,7 @@ export class SignInDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<SignInDialogComponent>,
-    public userService: UserService,
+    private snackBar: MatSnackBar,
     public authService: AuthService,
     private dialog: MatDialog,
     private fb: FormBuilder,
@@ -38,16 +38,22 @@ export class SignInDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.loginForm = this.fb.group({
-    //   email: ['', [Validators.required]],
-    //   password: ['', [Validators.required]]
-    // })
+    /* this.loginForm = this.fb.group({
+      email: ['', [Validators.required]],
+      password: ['', [Validators.required]]
+    }) */
 
-    // ADMIN TEST
+    // @TEST ADMIN
     this.loginForm = this.fb.group({
       email: ['admin@test.com', [Validators.required]],
       password: ['admin', [Validators.required]],
     });
+
+    // @TEST CUSTOMER
+    // this.loginForm = this.fb.group({
+    //   email: ['gago@test.com', [Validators.required]],
+    //   password: ['gago', [Validators.required]]
+    // })
   }
 
   openSignUpDialog() {
@@ -69,19 +75,17 @@ export class SignInDialogComponent implements OnInit {
 
     this.authService.login(email, password).subscribe({
       next: (role) => {
-        // @TODO customer dashboard if customer?
         this.router.navigateByUrl(role === 'ADMIN' ? '/admin' : '/');
-
+        this.dialogRef.close();
         this.loginForm.reset();
       },
-      error: (message) => {
-        console.log(message);
-
-        // @TODO implementation
-        // if (error status == 406) "Account does not exist"
-        // else { "Bad credentials"}
+      error: (errorMessage) => {
+        this.snackBar.open(errorMessage || 'Uknown error occured.', 'Close', {
+          duration: 5000,
+          verticalPosition: 'top',
+          panelClass: 'error-snackbar',
+        });
       },
     });
-    this.closeDialog();
   }
 }

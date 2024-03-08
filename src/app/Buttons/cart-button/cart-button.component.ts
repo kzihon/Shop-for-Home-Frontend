@@ -1,9 +1,7 @@
 import { Component, Signal, computed } from '@angular/core';
-import { AppService } from '../../app.service';
-import { UserService } from '../../services/user.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SignInDialogComponent } from '../../Login/sign-in-dialog/sign-in-dialog.component';
-import { CartService } from '../../services/cart.service';
+import { AuthLocalStorageService } from '../../services/auth-local-storage/auth-local-storage.service';
 
 @Component({
   selector: 'app-cart-button',
@@ -11,14 +9,13 @@ import { CartService } from '../../services/cart.service';
   styleUrl: './cart-button.component.scss',
 })
 export class CartButtonComponent {
-  loggedIn: Signal<boolean> = computed(() => this.userService.loggedIn());
-  isAdmin: Signal<boolean> = computed(() => this.userService.isAdmin());
-  cartSize: Signal<number> = computed(() => this.cartService.cartSize());
+  loggedIn: Signal<boolean> = computed(() =>
+    this.authLocalStorageService.isAuthenticated()
+  );
 
   constructor(
-    private userService: UserService,
     private dialog: MatDialog,
-    private cartService: CartService
+    private authLocalStorageService: AuthLocalStorageService
   ) {}
 
   openSignInDialog() {

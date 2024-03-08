@@ -12,6 +12,14 @@
   src: url("../src/assets/Poppins/Poppins-Light.ttf");
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 html,
 body {
   height: 100%;
@@ -36,16 +44,61 @@ a {
   color: black;
   text-decoration: none;
 }
+
 // mat-menu {
 //     &.mat-menu-item.mat-typography {
 //         color: pink
 //     }
 // }
+
 .mat-mdc-menu-item {
   color: pink;
 }
+
 mat-mdc-menu-item {
   &.mat-mdc-menu-item:link {
     color: pink;
   }
 }
+
+.mat-typography {
+  font-family: "Poppins-light";
+}
+
+button {
+  cursor: pointer;
+}
+
+.mat-icon,
+a,
+button {
+  cursor: pointer;
+}
+
+.success-snackbar {
+  background-color: green;
+  color: white;
+}
+
+.error-snackbar {
+  background-color: red;
+  color: white;
+}
+
+// * * * *    @Override material-ui dialog    * * * * //
+
+.mat-mdc-dialog-container .mdc-dialog__surface,
+.mdc-dialog__container {
+  height: fit-content !important;
+  width: fit-content;
+}
+
+.mat-mdc-dialog-container,
+.mat-mdc-dialog-container .mdc-dialog__container,
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  justify-content: center;
+  display: flex !important;
+  transform: translate(0, -5vh);
+}
+
+// * * * *    @Override material-ui dialog    * * * * //

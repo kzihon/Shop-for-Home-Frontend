@@ -10,6 +10,7 @@ import { CategoryType, Product } from '../../model';
 import { ProductService } from '../../services/product.service';
 
 @Component({
+  standalone: true,
   selector: 'app-product-operations',
   templateUrl: './product-operations.component.html',
   styleUrl: './product-operations.component.scss',

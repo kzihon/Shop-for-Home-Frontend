@@ -1,12 +1,20 @@
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import {
   MatDialog,
   MatDialogConfig,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { UserService } from '../../services/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SignInDialogComponent } from '../sign-in-dialog/sign-in-dialog.component';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-sign-up-dialog',
@@ -14,29 +22,58 @@ import { SignInDialogComponent } from '../sign-in-dialog/sign-in-dialog.componen
   styleUrl: './sign-up-dialog.component.scss',
 })
 export class SignUpDialogComponent {
-  email = new FormControl('');
+  registerForm!: FormGroup;
 
   constructor(
+    private snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<SignUpDialogComponent>,
-    public userService: UserService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private fb: FormBuilder,
+    private authService: AuthService
   ) {}
 
-  closeDialog() {
-    this.dialogRef.close();
+  ngOnInit() {
+    const { required, email } = Validators;
+
+    this.registerForm = this.fb.group({
+      firstname: ['customer', [required]],
+      lastname: ['badass', [required]],
+      email: ['customer@email.com', [required, email]],
+      password: ['12345', [required]],
+    });
   }
 
   openSignInDialog() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '60%';
-    dialogConfig.height = '60%';
+    dialogConfig.height = 'fit-content';
 
     this.dialog.open(SignInDialogComponent, dialogConfig);
   }
 
-  signIn() {
-    // this.userService.signIn(this.email.value, "pw");
-
+  closeDialog() {
     this.dialogRef.close();
+  }
+
+  register() {
+    this.authService.register(this.registerForm.value).subscribe({
+      next: () => {
+        this.snackBar.open('Registration successful!', 'Close', {
+          duration: 5000,
+          verticalPosition: 'top',
+          panelClass: 'success-snackbar',
+        });
+
+        this.dialogRef.close();
+        this.registerForm.reset();
+      },
+      error: (errorMessage) => {
+        this.snackBar.open(errorMessage || 'Uknown error occured.', 'Close', {
+          duration: 5000,
+          verticalPosition: 'top',
+          panelClass: 'error-snackbar',
+        });
+      },
+    });
   }
 }

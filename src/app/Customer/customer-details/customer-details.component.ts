@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { UserService } from '../../services/user.service';
-import { User } from '../../model';
+import { Component } from '@angular/core'
+import { User } from '../../model'
+import { AuthLocalStorageService } from '../../services/auth-local-storage/auth-local-storage.service'
+import IUserDetails from '../../services/auth/user-response.interface'
 
 @Component({
   selector: 'app-customer-details',
@@ -8,9 +9,7 @@ import { User } from '../../model';
   styleUrl: './customer-details.component.scss'
 })
 export class CustomerDetailsComponent {
-  constructor(private userService: UserService) {
+  user: IUserDetails = this.authLocalStorageService.userDetails
 
-  }
-
-  user: User = this.userService.user;
+  constructor (private authLocalStorageService: AuthLocalStorageService) {}
 }

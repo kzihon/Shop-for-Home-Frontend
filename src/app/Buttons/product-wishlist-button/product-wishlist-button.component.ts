@@ -1,8 +1,9 @@
 import { Component, Input, Signal, computed } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { UserService } from '../../services/user.service';
 import { SignInDialogComponent } from '../../Login/sign-in-dialog/sign-in-dialog.component';
 import { Product } from '../../model';
+import { AuthLocalStorageService } from '../../services/auth-local-storage/auth-local-storage.service';
+import { WishlistService } from '../../services/wishlist/wishlist.service';
 
 @Component({
   selector: 'app-product-wishlist-button',
@@ -13,26 +14,35 @@ export class ProductWishlistButtonComponent {
   @Input() productId: number;
 
   inWishlist: boolean;
-  loggedIn: Signal<boolean> = computed(() => this.userService.loggedIn());
-  isAdmin: Signal<boolean> = computed(() => this.userService.isAdmin());
+  loggedIn: Signal<boolean> = computed(() =>
+    this.authLocalStorageService.isAuthenticated()
+  );
 
-  constructor(private userService: UserService, private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private authLocalStorageService: AuthLocalStorageService,
+    private wishlistService: WishlistService
+  ) {}
 
   ngOnInit(): void {
-    this.inWishlist =
-      this.isAdmin() || !this.loggedIn()
-        ? null
-        : this.userService.isInWishlist(this.productId);
+    if (
+      this.authLocalStorageService.isAuthenticated &&
+      !this.authLocalStorageService.isAdmin
+    ) {
+      this.wishlistService.getWishlist().subscribe((wishlist: any) => {
+        this.inWishlist = wishlist.includes(this.productId);
+      });
+    }
   }
 
   heartClick() {
-    if (this.inWishlist) {
-      this.userService.removeFromWishlist(this.productId);
-      this.inWishlist = false;
-    } else {
-      this.userService.addToWishlist(this.productId);
-      this.inWishlist = true;
-    }
+    // if (this.inWishlist) {
+    //   this.userService.removeFromWishlist(this.productId)
+    //   this.inWishlist = false
+    // } else {
+    //   this.userService.addToWishlist(this.productId)
+    //   this.inWishlist = true
+    // }
   }
 
   openSignInDialog() {
