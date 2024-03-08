@@ -29,14 +29,14 @@ export class CartItemComponent {
   increase() {
     if (this.quantity < this.product.numberInStock) {
       this.quantity++;
-      this.cartService.addToCart(this.product.id, 1);
+      this.cartService.addToCart(this.product.productId, 1);
     }
   }
 
   decrease() {
     if (this.quantity > 1) {
       this.quantity--;
-      this.cartService.addToCart(this.product.id, -1);
+      this.cartService.addToCart(this.product.productId, -1);
     }
   }
 

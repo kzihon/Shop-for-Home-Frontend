@@ -4,13 +4,13 @@
   </a>
 </div>
 
-<div *ngIf="loggedIn() == true && !inWishlist">
+<div *ngIf="loggedIn() == true && isAdmin() == false && !inWishlist">
   <mat-button (click)="heartClick()">
     <mat-icon>favorite_border</mat-icon>
   </mat-button>
 </div>
 
-<div *ngIf="loggedIn() == true && inWishlist">
+<div *ngIf="loggedIn() == true && !isAdmin() == false && inWishlist">
   <mat-button (click)="heartClick()">
     <mat-icon>favorite</mat-icon>
   </mat-button>

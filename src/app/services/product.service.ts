@@ -1,208 +1,138 @@
-import { Injectable } from '@angular/core'
-import { Product } from '../model'
-import { Observable, catchError, map, throwError } from 'rxjs'
-import { HttpClient, HttpErrorResponse } from '@angular/common/http'
-import { env } from '../env'
-import { AuthLocalStorageService } from './auth-local-storage/auth-local-storage.service'
+import { Injectable, WritableSignal, signal } from '@angular/core';
+import { CategoryType, Product } from '../model';
+import { Observable, catchError, map, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { env } from '../env';
+import { AuthorizedHttpService } from './authorized-http/authorized-http.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProductService {
-  constructor (
-    private http: HttpClient // private localStorageService: LocalStorageService
-  ) {}
+  constructor(
+    private http: HttpClient,
+    private authorizedHttpService: AuthorizedHttpService
+  ) {
+    this.loadProducts();
+  }
+  productsSignal: WritableSignal<Product[]> = signal(new Array<Product>());
+  loadingProducts: boolean = true;
 
-  getProducts () {
-    return this.products
+  loadProducts() {
+    this.getAllProducts().subscribe((products: Product[]) => {
+      products.forEach((el: Product) => {
+        this.productsSignal().push(el);
+      });
+    });
   }
 
-  getProductsByCategory (category: string) {
-    if (category === 'all products') {
-      return this.products
-    }
-    return this.products.filter(product => product.category === category)
-  }
-
-  getProductsByIds (productIds: number[]) {
-    // return this.products.filter((product) => productIds.includes(product.id));
-  }
-
-  // fix this helper func
-  getProductById (id: number) {
-    for (var product of this.products) {
-      if (product.id == id) {
-        return product
+  getProductsByCategory(category: CategoryType): Product[] {
+    let products1 = [];
+    this.getProductsByCategoryDB(category.toString()).subscribe(
+      (products: Product[]) => {
+        products.forEach((el: Product) => {
+          products1.push(el);
+        });
       }
-    }
-    console.log('cant find product')
+    );
+    return products1;
   }
 
-  getProductByName (name: string) {
-    return this.products.filter(product => product.name === name)[0]
+  getProductsByIds(productIds: number[]) {
+    return this.productsSignal().filter((product) =>
+      productIds.includes(product.productId)
+    );
   }
 
-  createProduct1 (name: string) {
-    console.log('creating product: ', name)
-    // make call to backend
+  getProductById(id: number) {
+    let product1 = null;
+    this.getProductByIdDB(id).subscribe((product: Product) => {
+      console.log('check here', product);
+
+      product1 = product;
+    });
+    console.log('check here2', product1);
+    return product1;
   }
 
-  public createProduct (
+  getProductByName(name: string) {
+    return this.productsSignal().filter((product) => product.name === name)[0];
+  }
+
+  createProductFrontend(product: Product) {
+    console.log('creating product: ', product);
+    this.productsSignal().push(product);
+  }
+
+  // calls to database
+  public createProduct(
     name: string,
     price: number,
     description: string,
-    category: string,
+    category: CategoryType,
+    numberInStock: number,
+    supplierName: string,
+    imageFile: File
+  ): Observable<any> {
+    return this.authorizedHttpService.post('/product/create', {
+      name,
+      price,
+      description,
+      category,
+      numberInStock,
+      supplierName,
+      imageFile,
+    });
+  }
+
+  editProductFrontend(oldProduct: Product, product: Product) {
+    let index = this.productsSignal().indexOf(oldProduct);
+    if (index > -1) {
+      this.productsSignal()[index] = product;
+    }
+  }
+
+  public editProduct(
+    id: number,
+    name: string,
+    price: number,
+    description: string,
+    category: CategoryType,
     numberInStock: number,
     supplierName: string
   ): Observable<any> {
-    // public createProduct (name: string): Observable<any> {
+    return this.authorizedHttpService.put(
+      `/product/${id}`,
+      { name, price, description, category, numberInStock, supplierName }
 
-    return this.http
-      .post(
-        env.SERVER_URI + '/product/create',
-        { name, price, description, category, numberInStock, supplierName },
-        { observe: 'response' }
-      )
-      .pipe(
-        map(response => {
-          console.log(response)
-          const productDetails = (response.body as any).name
-
-          // const product = productDetails.name
-          return productDetails
-        }),
-        catchError(this.handleError)
-      )
+      // { headers: 'response' }
+    );
   }
-
-  // public deleteProduct(id: number): Observable<any> {
-  //   return this.http
-  //     .delete(env.SERVER_URI + '/product/delete/{id}', { observe: 'response' })
-  //     .pipe(
-  //       map((response) => {
-  //         console.log(response);
-  //         const productDetails = (response.body as any).name;
-
-  //         return productDetails;
-  //       }),
-  //       catchError(this.handleError)
-  //     );
-  // }
-  private handleError ({ error }: HttpErrorResponse) {
-    console.log({ error })
-    return throwError(() => error.message)
-  }
-
-  private products: Product[] = [
-    {
-      name: 'TABLES',
-      price: 20.99,
-      img: 'assets/images/tables.png',
-      category: 'tables',
-      id: 1,
-      description: 'description description description description',
-      numberInStock: 10,
-      supplierName: 'decor supplier 1'
-    },
-    {
-      name: 'Pink Plushy Chair',
-      price: 25.99,
-      img: 'assets/images/chairs.png',
-      category: 'chairs',
-      id: 2,
-      description: 'description description description description',
-      numberInStock: 10,
-      supplierName: 'decor supplier 1'
-    },
-    {
-      name: 'Pink Plushy Chair',
-      price: 22.99,
-      img: 'assets/images/chairs.png',
-      category: 'chairs',
-      id: 3,
-      description: 'description description description description',
-      numberInStock: 10,
-      supplierName: 'decor supplier 1'
-    },
-    {
-      name: 'Pink Heart Chair',
-      price: 10.99,
-      img: 'assets/images/pinkHeartChair.png',
-      category: 'chairs',
-      id: 4,
-      description: 'description description description description',
-      numberInStock: 10,
-      supplierName: 'decor supplier 1'
-    },
-    {
-      name: 'Pink Heart Chair',
-      price: 30.99,
-      img: 'assets/images/pinkHeartChair.png',
-      category: 'chairs',
-      id: 5,
-      description: 'description description description description',
-      numberInStock: 10,
-      supplierName: 'decor supplier 1'
-    },
-    {
-      name: 'LAMPS',
-      price: 20.99,
-      img: 'assets/images/lamps.png',
-      category: 'lamps',
-      id: 6,
-      description: 'description description description description',
-      numberInStock: 10,
-      supplierName: 'decor supplier 1'
-    },
-    {
-      name: 'TABLES',
-      price: 20.99,
-      img: 'assets/images/tables.png',
-      category: 'tables',
-      id: 7,
-      description: 'description description description description',
-      numberInStock: 10,
-      supplierName: 'decor supplier 1'
-    },
-    {
-      name: 'TABLES',
-      price: 20.99,
-      img: 'assets/images/tables.png',
-      category: 'tables',
-      id: 8,
-      description: 'description description description description',
-      numberInStock: 10,
-      supplierName: 'decor supplier 1'
-    },
-    {
-      name: 'Pink Plushy Chair',
-      price: 30.99,
-      img: 'assets/images/chairs.png',
-      category: 'chairs',
-      id: 9,
-      description: 'description description description description',
-      numberInStock: 10,
-      supplierName: 'decor supplier 1'
-    },
-    {
-      name: 'LAMPS',
-      price: 20.99,
-      img: 'assets/images/lamps.png',
-      category: 'lamps',
-      id: 10,
-      description: 'description description description description',
-      numberInStock: 10,
-      supplierName: 'decor supplier 1'
-    },
-    {
-      name: 'TABLES',
-      price: 20.99,
-      img: 'assets/images/tables.png',
-      category: 'tables',
-      id: 11,
-      description: 'description description description description',
-      numberInStock: 10,
-      supplierName: 'decor supplier 1'
+  deleteProductFrontend(product: Product) {
+    let index = this.productsSignal().indexOf(product);
+    if (index > -1) {
+      this.productsSignal().splice(index, 1);
     }
-  ]
+  }
+  deleteProduct(id: number): Observable<ArrayBuffer> {
+    return this.authorizedHttpService.delete(`/product/${id}`);
+  }
+
+  getAllProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${env.SERVER_URI}/product`);
+  }
+
+  public getProductsByCategoryDB(category: string): Observable<Product[]> {
+    return this.http.get<Product[]>(
+      `${env.SERVER_URI}/product/byCategory?category=${category}`
+    );
+  }
+  public getProductByIdDB(productId: number): Observable<Product> {
+    return this.http.get<Product>(`${env.SERVER_URI}/product/${productId}`);
+  }
+
+  private handleError({ error }: HttpErrorResponse) {
+    console.log({ error });
+    return throwError(() => error.message);
+  }
 }

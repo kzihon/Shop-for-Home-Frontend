@@ -1,12 +1,11 @@
 <div *ngIf="loggedIn() == false">
-    <a (click)="openSignInDialog()">       
-        <mat-icon >favorite_border</mat-icon>
-
-    </a>
+  <a (click)="openSignInDialog()">
+    <mat-icon>favorite_border</mat-icon>
+  </a>
 </div>
 
-<div *ngIf="loggedIn() == true">
-    <a routerLink="/wishlist">
-        <mat-icon >favorite_border</mat-icon>
-    </a>
+<div *ngIf="loggedIn() == true && isAdmin() == false">
+  <a routerLink="/wishlist">
+    <mat-icon>favorite_border</mat-icon>
+  </a>
 </div>

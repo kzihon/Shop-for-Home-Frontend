@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { User } from './model';
+import { Component, Signal, computed } from '@angular/core';
+import { Product, User } from './model';
+import { ProductService } from './services/product.service';
 
 @Component({
   selector: 'app-root',
@@ -8,4 +9,8 @@ import { User } from './model';
 })
 export class AppComponent {
   title = 'ShopForHome';
+  productsSignal: Signal<Product[]> = computed(() =>
+    this.productService.productsSignal()
+  );
+  constructor(private productService: ProductService) {}
 }

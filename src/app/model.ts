@@ -1,12 +1,12 @@
 export interface Product {
-  id: number;
+  productId: number;
   name: string;
   price: number;
   description: string;
-  category: string;
+  category: CategoryType;
   numberInStock: number;
-  supplierName: string;
-  img: string;
+  supplier: string;
+  imageModel: ImageModel;
 }
 
 export interface Category {
@@ -24,3 +24,20 @@ export interface User {
   cart: Map<number, number>;
   wishlist: number[];
 }
+
+export interface ImageModel {
+  id: number;
+  name: string;
+  type: string;
+  filePath: string;
+}
+export enum CategoryType {
+  TABLE,
+  CHAIRS,
+  LAMPS,
+  PLANTS,
+  DECOR,
+  COUCHES,
+  RUGS,
+}
+// export CategoryType: enum =   TABLE, CHAIRS, LAMPS, PLANTS, DECOR, COUCHES, RUGS

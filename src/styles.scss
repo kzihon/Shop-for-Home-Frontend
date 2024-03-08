@@ -1,15 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import 'material-icons/iconfont/material-icons.css';
+@import "material-icons/iconfont/material-icons.css";
 
 @font-face {
   font-family: Poppins-light;
-  src: url('../src/assets/Poppins/Poppins-ExtraLight.ttf');
+  src: url("../src/assets/Poppins/Poppins-ExtraLight.ttf");
 }
 
 @font-face {
   font-family: Poppins-medium;
-  src: url('../src/assets/Poppins/Poppins-Light.ttf');
+  src: url("../src/assets/Poppins/Poppins-Light.ttf");
 }
 
 *,
@@ -26,19 +26,19 @@ body {
 }
 // body { font-family: 'Poppins-light'}
 body {
-  font-family: 'Poppins-light' !important;
+  font-family: "Poppins-light" !important;
 }
 p {
-  font-family: 'Poppins-light';
+  font-family: "Poppins-light";
 }
 h2 {
-  font-family: 'Poppins-medium';
+  font-family: "Poppins-medium";
 }
 .mat-typography h1 {
-  font-family: 'Poppins-medium';
+  font-family: "Poppins-medium";
 }
 .mat-typography h2 {
-  font-family: 'Poppins-medium';
+  font-family: "Poppins-medium";
 }
 a {
   color: black;
@@ -62,7 +62,7 @@ mat-mdc-menu-item {
 }
 
 .mat-typography {
-  font-family: 'Poppins-light';
+  font-family: "Poppins-light";
 }
 
 button {

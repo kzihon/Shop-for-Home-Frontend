@@ -1,36 +1,56 @@
-import { Component } from '@angular/core'
-import { GeneralFormComponent } from '../general-form/general-form.component'
+import { Component, Signal, computed } from '@angular/core';
+import { GeneralFormComponent } from '../general-form/general-form.component';
 import {
   MatDialog,
   MatDialogConfig,
-  MatDialogRef
-} from '@angular/material/dialog'
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { ActivatedRoute, Params } from '@angular/router';
+import { CategoryType, Product } from '../../model';
+import { ProductService } from '../../services/product.service';
 
 @Component({
   standalone: true,
   selector: 'app-product-operations',
   templateUrl: './product-operations.component.html',
-  styleUrl: './product-operations.component.scss'
+  styleUrl: './product-operations.component.scss',
 })
 export class ProductOperationsComponent {
-  constructor (
-    private dialog: MatDialog // private dialogRef: MatDialogRef<GeneralFormComponent>
+  clickedId: number;
+  productsSignal: Signal<Product[]> = computed(() =>
+    this.productService.productsSignal()
+  );
+
+  constructor(
+    public route: ActivatedRoute,
+    private productService: ProductService,
+    private dialog: MatDialog
   ) {}
 
-  openCreateProduct () {
-    const dialogConfig = new MatDialogConfig()
-    dialogConfig.width = '60%'
+  ngOnInit() {}
+
+  openCreateProduct() {
+    const dialogConfig = new MatDialogConfig();
+
     dialogConfig.data = {
-      formType: 'Create Product'
-    }
-    this.dialog.open(GeneralFormComponent, dialogConfig)
+      formType: 'Create Product',
+    };
+    this.dialog.open(GeneralFormComponent, dialogConfig);
   }
-  openDeleteProduct () {
-    const dialogConfig = new MatDialogConfig()
-    dialogConfig.width = '60%'
+  openEditProduct(product: Product) {
+    const dialogConfig = new MatDialogConfig();
+
     dialogConfig.data = {
-      formType: 'Delete Product'
-    }
-    this.dialog.open(GeneralFormComponent, dialogConfig)
+      formType: 'Edit Product',
+      product: product,
+    };
+    this.dialog.open(GeneralFormComponent, dialogConfig);
+  }
+
+  deleteProduct(product: Product) {
+    this.productService.deleteProductFrontend(product);
+    this.productService.deleteProduct(product.productId).subscribe((res) => {
+      console.log(res);
+    });
   }
 }

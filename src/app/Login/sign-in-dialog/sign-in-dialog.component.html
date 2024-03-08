@@ -1,31 +1,36 @@
 <mat-dialog-content>
-    <div class="dialog">
-        <mat-icon (click)="closeDialog()" routerLink="/home" class="close">close</mat-icon>
-        <div class="header">
-            <h2 class="title">Sign In To Continue</h2>
-        </div>
-        <div [formGroup]="loginForm" validateForm class="form">
-            <div>
-                <mat-form-field class="example-full-width">
-                    <mat-label>Email</mat-label>
-                    <input matInput placeholder="example@mail.com" formControlName="email">
-                </mat-form-field>
-            </div>
-            <div>
-                <mat-form-field class="example-full-width">
-                    <mat-label>Password</mat-label>
-                    <input matInput placeholder="Password" formControlName="password">
-                </mat-form-field>
-            </div>
-
-        </div>
-        <button mat-raised-button color="primary" (click)="signIn()">SIGN IN</button>
-
-        <p>
-            Don't have an account? <a routerLink="/signUp" (click)="openSignUpDialog()">
-                SIGN UP
-            </a>
-        </p>
-
+  <div class="dialog">
+    <mat-icon (click)="closeDialog()" routerLink="/home" class="close"
+      >close</mat-icon
+    >
+    <div class="header">
+      <h2 class="title">Sign In To Continue</h2>
     </div>
+    <div [formGroup]="loginForm" validateForm class="form">
+      <div>
+        <mat-form-field class="example-full-width">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            placeholder="example@mail.com"
+            formControlName="email"
+          />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="example-full-width">
+          <mat-label>Password</mat-label>
+          <input matInput placeholder="Password" formControlName="password" />
+        </mat-form-field>
+      </div>
+    </div>
+    <button mat-raised-button color="primary" (click)="signIn()">
+      SIGN IN
+    </button>
+
+    <p>
+      Don't have an account?
+      <a routerLink="/signUp" (click)="openSignUpDialog()"> SIGN UP </a>
+    </p>
+  </div>
 </mat-dialog-content>

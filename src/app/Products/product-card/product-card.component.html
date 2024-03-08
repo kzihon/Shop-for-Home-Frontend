@@ -1,18 +1,22 @@
 <div class="productCard">
   <a
-    [routerLink]="['/product', product.id]"
+    [routerLink]="['/product', product.productId]"
     routerLinkActive="active"
     [routerLinkActiveOptions]="{ exact: true }"
   >
     <div class="top">
-      <img src="{{ product.img }}" alt="" class="img" />
+      <img
+        src="assets/backendImages/{{ product.imageModel.name }}"
+        alt=""
+        class="img"
+      />
     </div>
     <div class="heart">
       <p>{{ product.name }}</p>
     </div>
-    <p>{{ product.price }}</p>
+    <p>${{ product.price }}</p>
   </a>
   <app-product-wishlist-button
-    [productId]="product.id"
+    [productId]="product.productId"
   ></app-product-wishlist-button>
 </div>

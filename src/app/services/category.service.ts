@@ -6,14 +6,14 @@ import { Category } from '../model';
 })
 export class CategoryService {
   private categories: Category[] = [
-    { name: 'all products', img: 'assets/images/allCategories.png' },
-    { name: 'tables', img: 'assets/images/tables.png' },
-    { name: 'chairs', img: 'assets/images/chairs.png' },
-    { name: 'lamps', img: 'assets/images/lamps.png' },
-    { name: 'plants', img: 'assets/images/plants.png' },
-    { name: 'decor', img: 'assets/images/art.png' },
-    { name: 'couches', img: 'assets/images/couches.png' },
-    { name: 'rugs', img: 'assets/images/rugs.png' },
+    { name: 'ALL PRODUCTS', img: 'assets/images/allCategories.png' },
+    { name: 'TABLES', img: 'assets/images/tables.png' },
+    { name: 'CHAIRS', img: 'assets/images/chairs.png' },
+    { name: 'LAMPS', img: 'assets/images/lamps.png' },
+    { name: 'PLANTS', img: 'assets/images/plants.png' },
+    { name: 'DECOR', img: 'assets/images/art.png' },
+    { name: 'COUCHES', img: 'assets/images/couches.png' },
+    { name: 'RUGS', img: 'assets/images/rugs.png' },
   ];
 
   getCategories() {

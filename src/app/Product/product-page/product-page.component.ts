@@ -1,47 +1,71 @@
-import { Component, Input } from '@angular/core'
-import { ActivatedRoute, Params } from '@angular/router'
-import { ProductService } from '../../services/product.service'
-import { Product } from '../../model'
-import { CartService } from '../../services/cart.service'
+import { Component, Input, Signal, computed } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { ProductService } from '../../services/product.service';
+import { Product } from '../../model';
+import { CartService } from '../../services/cart.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { SignInDialogComponent } from '../../Login/sign-in-dialog/sign-in-dialog.component';
+import { AuthLocalStorageService } from '../../services/auth-local-storage/auth-local-storage.service';
 
 @Component({
   selector: 'app-product-page',
   templateUrl: './product-page.component.html',
-  styleUrl: './product-page.component.scss'
+  styleUrl: './product-page.component.scss',
 })
 export class ProductPageComponent {
-  productName = ''
-  product: Product
-  quantity: number = 1
-  productQuantity: number
+  id: number;
+  product: Product;
+  quantity: number = 1;
+  productQuantity: number;
+  loggedIn: Signal<boolean> = computed(() =>
+    this.authLocalStorageService.isAuthenticated()
+  );
+  isAdmin: Signal<boolean> = computed(() =>
+    this.authLocalStorageService.isAdmin()
+  );
 
-  constructor (
+  constructor(
     public route: ActivatedRoute,
     private productService: ProductService,
-    private cartService: CartService
+    private authLocalStorageService: AuthLocalStorageService,
+    private cartService: CartService,
+    private dialog: MatDialog
   ) {}
 
-  ngOnInit (): void {
+  ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.productName = params['productId']
-      this.product = this.productService.getProductById(params['productId'])
-    })
-    this.productQuantity = this.product.numberInStock
+      this.id = params['productId'];
+    });
+    this.loadProduct(this.id);
+  }
+  loadProduct(id: number) {
+    this.productService.getProductByIdDB(id).subscribe((product: Product) => {
+      this.product = product;
+      this.productQuantity = product.numberInStock;
+    });
   }
 
-  addToCart () {
-    this.cartService.addToCart(this.product.id, this.quantity)
+  addToCart() {
+    this.cartService.addToCart(this.product.productId, this.quantity);
   }
 
-  increase () {
+  increase() {
     if (this.quantity < this.productQuantity) {
-      this.quantity++
+      this.quantity++;
     }
   }
 
-  decrease () {
+  decrease() {
     if (this.quantity > 1) {
-      this.quantity--
+      this.quantity--;
     }
+  }
+
+  openSignInDialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = '60%';
+    dialogConfig.height = '60%';
+
+    this.dialog.open(SignInDialogComponent, dialogConfig);
   }
 }

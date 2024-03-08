@@ -1,60 +1,56 @@
 <mat-dialog-content class="dialog">
   <h2>{{ formType }}</h2>
-  <div *ngIf="formType == 'Delete Product'">
-    <mat-form-field class="example-full-width">
-      <mat-label for="id">Product ID </mat-label>
-      <input matInput type="number" [formControl]="id" required />
-    </mat-form-field>
-  </div>
-  <div *ngIf="formType == 'Create Product'">
+
+  <div>
     <mat-form-field class="example-full-width">
       <mat-label for="name">Product Name </mat-label>
       <input matInput type="text" [formControl]="name" required />
     </mat-form-field>
-    <!-- <p
-      *ngIf="(name.dirty || name.touched) && name.errors?.['required']"
-      class="error"
-    >
-      Name is required.
-    </p> -->
   </div>
-  <div *ngIf="formType == 'Create Product'">
+  <div>
     <mat-form-field class="example-full-width">
       <mat-label for="price">Product Price </mat-label>
       <input matInput type="number" [formControl]="price" required />
     </mat-form-field>
   </div>
-  <div *ngIf="formType == 'Create Product'">
+  <div>
     <mat-form-field class="example-full-width">
       <mat-label for="description">Product Description </mat-label>
       <input matInput type="text" [formControl]="description" required />
     </mat-form-field>
   </div>
-  <div *ngIf="formType == 'Create Product'">
+  <div>
     <mat-form-field>
-      <mat-label>Sort By</mat-label>
+      <mat-label>Category</mat-label>
       <mat-select [(value)]="category" required>
-        <mat-option *ngFor="let category of categories" value="category">{{
-          category
-        }}</mat-option>
+        <mat-option
+          *ngFor="let category of categories"
+          value="category.value"
+          >{{ category.displayName }}</mat-option
+        >
       </mat-select>
     </mat-form-field>
   </div>
-  <div *ngIf="formType == 'Create Product'">
+  <div>
     <mat-form-field class="example-full-width">
       <mat-label for="numberInStock">Number In Stock </mat-label>
       <input matInput type="number" [formControl]="numberInStock" required />
     </mat-form-field>
   </div>
-  <div *ngIf="formType == 'Create Product'">
+  <div>
     <mat-form-field class="example-full-width">
       <mat-label for="supplierName">Supplier Name</mat-label>
       <input matInput type="text" [formControl]="supplierName" required />
     </mat-form-field>
   </div>
+  <input
+    type="file"
+    accept="image/x-png, image/gif, image/jpeg"
+    (change)="handleImageUpload($event)"
+  />
 
   <app-button-component
-    (click)="createProduct()"
+    (click)="formType == 'Create Product' ? createProduct() : editProduct()"
     [text]="formType"
   ></app-button-component>
 </mat-dialog-content>
