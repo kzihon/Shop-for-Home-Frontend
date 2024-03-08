@@ -17,6 +17,9 @@ export class ProductWishlistButtonComponent {
   loggedIn: Signal<boolean> = computed(() =>
     this.authLocalStorageService.isAuthenticated()
   );
+  isAdmin: Signal<boolean> = computed(() =>
+    this.authLocalStorageService.isAdmin()
+  );
 
   constructor(
     private dialog: MatDialog,

@@ -1,6 +1,5 @@
 import { Component, Signal, computed, effect } from '@angular/core';
 import { CartService } from '../../services/cart.service';
-import { UserService } from '../../services/user.service';
 import { ProductService } from '../../services/product.service';
 
 @Component({

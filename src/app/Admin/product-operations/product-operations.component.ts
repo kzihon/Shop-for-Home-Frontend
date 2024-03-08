@@ -16,10 +16,6 @@ import { ProductService } from '../../services/product.service';
   styleUrl: './product-operations.component.scss',
 })
 export class ProductOperationsComponent {
-  // products: Product[] = [];
-  sort: string = '';
-  sortTypes: string[] = ['Low to High', 'High to Low'];
-  length: number;
   clickedId: number;
   productsSignal: Signal<Product[]> = computed(() =>
     this.productService.productsSignal()
@@ -29,48 +25,13 @@ export class ProductOperationsComponent {
     public route: ActivatedRoute,
     private productService: ProductService,
     private dialog: MatDialog
-  ) {
-    // this.products = this.productService.getProducts();
-    // for (let product of this.productsSignal()) {
-    //   console.log('one item in admin products', product.name);
-    // }
-    // this.productsSignal().forEach((product) => console.log('item', product));
-    // console.log(
-    //   'all items in admin backend',
-    //   this.productsSignal(),
-    //   this.productsSignal().length,
-    //   typeof this.productsSignal()
-    // );
-  }
+  ) {}
 
-  ngOnInit() {
-    // this.products = this.productService.getProducts();
-    this.productsSignal().forEach((product) =>
-      console.log('item', product, product.imageModel)
-    );
-    console.log(
-      'all items in admin backend',
-      this.productsSignal(),
-      this.productsSignal().length,
-      typeof this.productsSignal()
-    );
-  }
-
-  // sortProducts() {
-  //   if (this.sort === 'High to Low') {
-  //     this.products.sort((a, b) => b.price - a.price);
-  //   } else if (this.sort === 'Low to High') {
-  //     this.products.sort((a, b) => a.price - b.price);
-  //   }
-  // }
-
-  // loadProducts(category: CategoryType) {
-  //   this.products = this.productService.getProductsByCategory(this.category);
-  // }
+  ngOnInit() {}
 
   openCreateProduct() {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.width = '60%';
+
     dialogConfig.data = {
       formType: 'Create Product',
     };
@@ -78,7 +39,7 @@ export class ProductOperationsComponent {
   }
   openEditProduct(product: Product) {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.width = '60%';
+
     dialogConfig.data = {
       formType: 'Edit Product',
       product: product,
@@ -87,13 +48,9 @@ export class ProductOperationsComponent {
   }
 
   deleteProduct(product: Product) {
-    if (product.productId == null) {
-      console.log('no id');
-    } else {
-      this.productService.deleteProductFrontend(product);
-      this.productService.deleteProduct(product.productId).subscribe((res) => {
-        console.log(res);
-      });
-    }
+    this.productService.deleteProductFrontend(product);
+    this.productService.deleteProduct(product.productId).subscribe((res) => {
+      console.log(res);
+    });
   }
 }

@@ -1,16 +1,8 @@
-import { Component, Inject, Input } from '@angular/core';
-import {
-  MatDialogRef,
-  MatDialog,
-  MatDialogConfig,
-  MAT_DIALOG_DATA,
-} from '@angular/material/dialog';
-import { UserService } from '../../services/user.service';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormControl } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
-import { Validators } from '@angular/forms';
-import { CategoryService } from '../../services/category.service';
-import { CategoryType, Product } from '../../model';
+import { CategoryType, ImageModel, Product } from '../../model';
 
 @Component({
   selector: 'app-general-form',
@@ -20,16 +12,13 @@ import { CategoryType, Product } from '../../model';
 export class GeneralFormComponent {
   formType: string;
   categories = [
+    { displayName: 'Tables', value: CategoryType.TABLE },
     { displayName: 'Chairs', value: CategoryType.CHAIRS },
+    { displayName: 'Lamps', value: CategoryType.LAMPS },
+    { displayName: 'Plants', value: CategoryType.PLANTS },
+    { displayName: 'Decor', value: CategoryType.DECOR },
     { displayName: 'Couches', value: CategoryType.COUCHES },
-
-    // 'CHAIRS',
-    // CategoryType.COUCHES,
-    // CategoryType.DECOR,
-    // CategoryType.LAMPS,
-    // CategoryType.PLANTS,
-    // CategoryType.RUGS,
-    // CategoryType.TABLE,
+    { displayName: 'Rugs', value: CategoryType.RUGS },
   ];
   id: FormControl<number> = new FormControl();
 
@@ -40,9 +29,16 @@ export class GeneralFormComponent {
   numberInStock: FormControl<number> = new FormControl();
   supplierName: FormControl<string> = new FormControl('');
   img: FormControl<string> = new FormControl('');
+  imgModel: ImageModel = {
+    id: null,
+    name: '',
+    type: '',
+    filePath: '',
+  };
 
   email = new FormControl('');
   product: Product;
+  selectedImageFile: File | null = null;
 
   constructor(
     private productService: ProductService,
@@ -64,13 +60,31 @@ export class GeneralFormComponent {
     this.category = this.product.category;
     this.numberInStock.setValue(this.product.numberInStock);
     this.supplierName.setValue(this.product.supplier);
+    this.setImage();
     console.log(this.product);
+  }
+
+  setImage() {
+    this.imgModel.id = this.product.imageModel.id;
+    this.imgModel.name = this.product.imageModel.name;
+    this.imgModel.type = this.product.imageModel.type;
+    this.imgModel.filePath = this.product.imageModel.filePath;
   }
 
   closeDialog() {
     this.dialogRef.close();
   }
   selectCategory() {}
+
+  handleImageUpload($event: Event) {
+    const files = ($event?.target as HTMLInputElement)?.files ?? null;
+    this.selectedImageFile = files && files.length > 0 ? files[0] : null;
+    console.log(this.selectedImageFile);
+    // this.imgModel.id = this.product.imageModel.id;
+    // this.imgModel.name = this.product.imageModel.name;
+    // this.imgModel.type = this.product.imageModel.type;
+    // this.imgModel.filePath = this.product.imageModel.filePath;
+  }
 
   createProduct() {
     if (
@@ -90,7 +104,8 @@ export class GeneralFormComponent {
           this.description.value,
           this.category,
           this.numberInStock.value,
-          this.supplierName.value
+          this.supplierName.value,
+          this.selectedImageFile
         )
         .subscribe({
           next: (product) => {

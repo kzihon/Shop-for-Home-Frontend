@@ -4,23 +4,13 @@ import { Subject } from 'rxjs';
 import { ProductService } from './product.service';
 import { CartService } from './cart.service';
 
-<<<<<<< HEAD
-interface IUser {
+interface IUserResponse {
   id: number;
   email: string;
   firstname: string;
   lastname: string;
   role: 'ADMIN' | 'CUSTOMER';
   wishlist?: Array<any>; // any is IProduct interface
-=======
-interface IUserResponse {
-  id: number
-  email: string
-  firstname: string
-  lastname: string
-  role: 'ADMIN' | 'CUSTOMER'
-  wishlist?: Array<any> // any is IProduct interface
->>>>>>> c17f19fef6546bb8f37a9d6123fd510d693d27c1
 }
 
 @Injectable({
@@ -92,11 +82,7 @@ export class UserService {
     localStorage.setItem(this.TOKEN, token);
   }
 
-<<<<<<< HEAD
-  signIn(bearerToken: string, userDetails: IUser) {
-=======
-  signIn (bearerToken: string, userDetails: IUserResponse) {
->>>>>>> c17f19fef6546bb8f37a9d6123fd510d693d27c1
+  signIn(bearerToken: string, userDetails: IUserResponse) {
     this.user = {
       id: null,
       firstName: userDetails.firstname,

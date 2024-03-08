@@ -2,11 +2,10 @@ import { Component, Input, Signal, computed } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../model';
-import { UserService } from '../../services/user.service';
 import { CartService } from '../../services/cart.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SignInDialogComponent } from '../../Login/sign-in-dialog/sign-in-dialog.component';
+import { AuthLocalStorageService } from '../../services/auth-local-storage/auth-local-storage.service';
 
 @Component({
   selector: 'app-product-page',
@@ -18,12 +17,17 @@ export class ProductPageComponent {
   product: Product;
   quantity: number = 1;
   productQuantity: number;
-  loggedIn: Signal<boolean> = computed(() => this.userService.loggedIn());
+  loggedIn: Signal<boolean> = computed(() =>
+    this.authLocalStorageService.isAuthenticated()
+  );
+  isAdmin: Signal<boolean> = computed(() =>
+    this.authLocalStorageService.isAdmin()
+  );
 
   constructor(
     public route: ActivatedRoute,
     private productService: ProductService,
-    private userService: UserService,
+    private authLocalStorageService: AuthLocalStorageService,
     private cartService: CartService,
     private dialog: MatDialog
   ) {}

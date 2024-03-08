@@ -8,12 +8,14 @@
   <div class="action">
     <h2>EDIT PRODUCTS</h2>
     <section class="products">
-      <div *ngFor="let product of productsSignal()" class="product">
+      @for (product of productsSignal(); track product) {
+      <div class="product">
         <div class="productCard">
           <img
             src="assets/backendImages/{{ product.imageModel.name }}"
             alt=""
             class="img"
+            fill
           />
           <p>{{ product.name }}</p>
         </div>
@@ -22,6 +24,7 @@
           <button (click)="deleteProduct(product)">DELETE</button>
         </div>
       </div>
+      }
     </section>
   </div>
 </div>

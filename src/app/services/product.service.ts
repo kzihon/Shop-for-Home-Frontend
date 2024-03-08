@@ -71,15 +71,17 @@ export class ProductService {
     description: string,
     category: CategoryType,
     numberInStock: number,
-    supplierName: string
+    supplierName: string,
+    imageFile: File
   ): Observable<any> {
-    return this.http.post(env.SERVER_URI + '/product/create', {
+    return this.authorizedHttpService.post('/product/create', {
       name,
       price,
       description,
       category,
       numberInStock,
       supplierName,
+      imageFile,
     });
   }
 
@@ -113,9 +115,7 @@ export class ProductService {
     }
   }
   deleteProduct(id: number): Observable<ArrayBuffer> {
-    return this.authorizedHttpService.delete(
-      `${env.SERVER_URI}/product/delete/${id}`
-    );
+    return this.authorizedHttpService.delete(`/product/${id}`);
   }
 
   getAllProducts(): Observable<Product[]> {

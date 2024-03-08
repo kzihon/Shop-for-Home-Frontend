@@ -12,6 +12,9 @@ export class WishlistButtonComponent {
   loggedIn: Signal<boolean> = computed(() =>
     this.authLocalStorageService.isAuthenticated()
   );
+  isAdmin: Signal<boolean> = computed(() =>
+    this.authLocalStorageService.isAdmin()
+  );
 
   constructor(
     private authLocalStorageService: AuthLocalStorageService,
