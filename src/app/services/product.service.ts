@@ -14,60 +14,49 @@ export class ProductService {
     private authorizedHttpService: AuthorizedHttpService
   ) {
     this.loadProducts();
-    console.log('products from dummy', this.productsSignal());
   }
   productsSignal: WritableSignal<Product[]> = signal(new Array<Product>());
+  loadingProducts: boolean = true;
 
   loadProducts() {
     this.getAllProducts().subscribe((products: Product[]) => {
       products.forEach((el: Product) => {
-        console.log('element from backend', el);
-        // el.processedImage = 'data:image/jpeg;base64,' + el.image
-        // this.products.push(el)
         this.productsSignal().push(el);
       });
     });
-    // for (let dummyProd of this.products) {
-    //   this.productsSignal().push(dummyProd);
-    // }
   }
 
-  getProducts() {
-    this.getAllProducts().subscribe((products: Product[]) => {
-      products.forEach((el: Product) => {
-        // el.processedImage = 'data:image/jpeg;base64,' + el.image
-        // this.products.push(el)
-        this.products.push(el);
-      });
-    });
-    return this.products;
-  }
-
-  getProductsByCategory(category: CategoryType) {
-    if (category.toString() == 'ALL PRODUCTS') {
-      return this.products;
-    }
-    return this.products.filter((product) => product.category === category);
+  getProductsByCategory(category: CategoryType): Product[] {
+    let products1 = [];
+    this.getProductsByCategoryDB(category.toString()).subscribe(
+      (products: Product[]) => {
+        products.forEach((el: Product) => {
+          products1.push(el);
+        });
+      }
+    );
+    return products1;
   }
 
   getProductsByIds(productIds: number[]) {
-    return this.products.filter((product) =>
+    return this.productsSignal().filter((product) =>
       productIds.includes(product.productId)
     );
   }
 
-  // fix this helper func
   getProductById(id: number) {
-    for (var product of this.products) {
-      if (product.productId == id) {
-        return product;
-      }
-    }
-    console.log('cant find product');
+    let product1 = null;
+    this.getProductByIdDB(id).subscribe((product: Product) => {
+      console.log('check here', product);
+
+      product1 = product;
+    });
+    console.log('check here2', product1);
+    return product1;
   }
 
   getProductByName(name: string) {
-    return this.products.filter((product) => product.name === name)[0];
+    return this.productsSignal().filter((product) => product.name === name)[0];
   }
 
   createProductFrontend(product: Product) {
@@ -84,20 +73,14 @@ export class ProductService {
     numberInStock: number,
     supplierName: string
   ): Observable<any> {
-    // this.productsSignal().push({
-    //   name: name,
-    // price: price,
-    // description: description,
-    // category: category,
-    // numberInStock: numberInStock,
-    // supplierName: supplierName
-    // })
-    return this.http.post(
-      env.SERVER_URI + '/product/create',
-      { name, price, description, category, numberInStock, supplierName }
-      // {headers: this.authorizedHeader}
-      // { headers: 'response' }
-    );
+    return this.http.post(env.SERVER_URI + '/product/create', {
+      name,
+      price,
+      description,
+      category,
+      numberInStock,
+      supplierName,
+    });
   }
 
   editProductFrontend(oldProduct: Product, product: Product) {
@@ -129,10 +112,9 @@ export class ProductService {
       this.productsSignal().splice(index, 1);
     }
   }
-  deleteProduct(id: number): Observable<void> {
-    return this.http.delete<void>(
+  deleteProduct(id: number): Observable<ArrayBuffer> {
+    return this.authorizedHttpService.delete(
       `${env.SERVER_URI}/product/delete/${id}`
-      // , {headers: this.adminService.authorizeHeader}
     );
   }
 
@@ -140,155 +122,17 @@ export class ProductService {
     return this.http.get<Product[]>(`${env.SERVER_URI}/product`);
   }
 
-  // updateProduct (id: number, formData: FormData): Observable<any> {
-  //   return this.http.put(`${env.SERVER_URI}/product/${id}`, formData, {
-  //     headers: this.adminService.authorizeHeader
-  //   })
-  // }
+  public getProductsByCategoryDB(category: string): Observable<Product[]> {
+    return this.http.get<Product[]>(
+      `${env.SERVER_URI}/product/byCategory?category=${category}`
+    );
+  }
+  public getProductByIdDB(productId: number): Observable<Product> {
+    return this.http.get<Product>(`${env.SERVER_URI}/product/${productId}`);
+  }
 
-  // public deleteProduct(id: number): Observable<any> {
-  //   return this.http
-  //     .delete(env.SERVER_URI + '/product/delete/{id}', { observe: 'response' })
-  //     .pipe(
-  //       map((response) => {
-  //         console.log(response);
-  //         const productDetails = (response.body as any).name;
-
-  //         return productDetails;
-  //       }),
-  //       catchError(this.handleError)
-  //     );
-  // }
   private handleError({ error }: HttpErrorResponse) {
     console.log({ error });
     return throwError(() => error.message);
   }
-
-  private products: Product[] = [
-    {
-      name: 'TABLES',
-      price: 20.99,
-      imageModel: {
-        id: 1,
-        name: 'tables.png',
-        type: 'image/png',
-        filePath: 'assets/images/tables.png',
-      },
-      category: CategoryType.TABLE,
-      productId: 111,
-      description: 'description description description description',
-      numberInStock: 10,
-      supplier: 'decor supplier 1',
-    },
-    {
-      name: 'Pink Plushy Chair',
-      price: 25.99,
-      imageModel: {
-        id: 1,
-        name: 'tables.png',
-        type: 'image/png',
-        filePath: 'assets/images/tables.png',
-      },
-      category: CategoryType.CHAIRS,
-      productId: 112,
-      description: 'description description description description',
-      numberInStock: 10,
-      supplier: 'decor supplier 1',
-    },
-    {
-      name: 'Pink Plushy Chair',
-      price: 22.99,
-      imageModel: {
-        id: 1,
-        name: 'tables.png',
-        type: 'image/png',
-        filePath: 'assets/images/tables.png',
-      },
-      category: CategoryType.CHAIRS,
-      productId: 113,
-      description: 'description description description description',
-      numberInStock: 10,
-      supplier: 'decor supplier 1',
-    },
-    // {
-    //   name: 'Pink Heart Chair',
-    //   price: 10.99,
-    //   img: 'assets/images/pinkHeartChair.png',
-    //   category: 'chairs',
-    //   productId: 114,
-    //   description: 'description description description description',
-    //   numberInStock: 10,
-    //   supplierName: 'decor supplier 1',
-    // },
-    // {
-    //   name: 'Pink Heart Chair',
-    //   price: 30.99,
-    //   img: 'assets/images/pinkHeartChair.png',
-    //   category: 'chairs',
-    //   productId: 115,
-    //   description: 'description description description description',
-    //   numberInStock: 10,
-    //   supplierName: 'decor supplier 1',
-    // },
-    // {
-    //   name: 'LAMPS',
-    //   price: 20.99,
-    //   img: 'assets/images/lamps.png',
-    //   category: 'lamps',
-    //   productId: 116,
-    //   description: 'description description description description',
-    //   numberInStock: 10,
-    //   supplierName: 'decor supplier 1',
-    // },
-    // {
-    //   name: 'TABLES',
-    //   price: 20.99,
-    //   img: 'assets/images/tables.png',
-    //   category: 'tables',
-    //   productId: 117,
-    //   description: 'description description description description',
-    //   numberInStock: 10,
-    //   supplierName: 'decor supplier 1',
-    // },
-    // {
-    //   name: 'TABLES',
-    //   price: 20.99,
-    //   img: 'assets/images/tables.png',
-    //   category: 'tables',
-    //   productId: 118,
-    //   description: 'description description description description',
-    //   numberInStock: 10,
-    //   supplierName: 'decor supplier 1',
-    // },
-    // {
-    //   name: 'Pink Plushy Chair',
-    //   price: 30.99,
-    //   img: 'assets/images/chairs.png',
-    //   category: 'chairs',
-    //   productId: 119,
-    //   description: 'description description description description',
-    //   numberInStock: 10,
-    //   supplierName: 'decor supplier 1',
-    // },
-    // {
-    //   name: 'LAMPS',
-    //   price: 20.99,
-    //   img: 'assets/images/lamps.png',
-    //   category: 'lamps',
-    //   productId: 110,
-    //   description: 'description description description description',
-    //   numberInStock: 10,
-    //   supplierName: 'decor supplier 1',
-    // },
-    // {
-    //   name: 'TABLES',
-    //   price: 20.99,
-    //   img: 'assets/images/tables.png',
-    //   category: 'tables',
-    //   productId: 111,
-    //   description: 'description description description description',
-    //   numberInStock: 10,
-    //   supplierName: 'decor supplier 1',
-    // },
-  ];
 }

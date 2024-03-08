@@ -1,4 +1,4 @@
-import { Component, Signal, computed } from '@angular/core';
+import { Component, Signal, computed, effect } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { UserService } from '../../services/user.service';
 import { ProductService } from '../../services/product.service';
@@ -22,6 +22,9 @@ export class CartTotalComponent {
     private cartService: CartService,
     private productService: ProductService
   ) {
+    effect(() => {
+      this.calculateSubtotal();
+    });
     // this.cartMap = this.cartService.cart;
     // this.subtotal.set(this.calculateSubtotal());
     // console.log('testing', this.cartMap().size);

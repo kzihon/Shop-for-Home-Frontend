@@ -108,14 +108,26 @@ export class GeneralFormComponent {
   editProduct() {
     if (
       this.name.value == '' ||
-      (this.price.value == null && this.price.value <= 0) ||
+      this.price.value == null ||
+      this.price.value <= 0 ||
       this.description.value == '' ||
       this.category == null ||
-      (this.numberInStock.value == null && this.numberInStock.value <= 0) ||
+      this.numberInStock.value == null ||
+      this.numberInStock.value <= 0 ||
       this.supplierName.value == ''
     ) {
       console.log('fill out required fields');
     } else {
+      console.log(
+        'submitting edit product',
+        this.product.productId,
+        this.name.value,
+        this.price.value,
+        this.description.value,
+        this.category,
+        this.numberInStock.value,
+        this.supplierName.value
+      );
       this.productService
         .editProduct(
           this.product.productId,

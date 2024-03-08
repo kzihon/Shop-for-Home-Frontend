@@ -15,7 +15,7 @@ import { ProductService } from '../../services/product.service';
   styleUrl: './product-operations.component.scss',
 })
 export class ProductOperationsComponent {
-  products: Product[] = [];
+  // products: Product[] = [];
   sort: string = '';
   sortTypes: string[] = ['Low to High', 'High to Low'];
   length: number;
@@ -43,7 +43,7 @@ export class ProductOperationsComponent {
   }
 
   ngOnInit() {
-    this.products = this.productService.getProducts();
+    // this.products = this.productService.getProducts();
     this.productsSignal().forEach((product) =>
       console.log('item', product, product.imageModel)
     );
@@ -55,13 +55,13 @@ export class ProductOperationsComponent {
     );
   }
 
-  sortProducts() {
-    if (this.sort === 'High to Low') {
-      this.products.sort((a, b) => b.price - a.price);
-    } else if (this.sort === 'Low to High') {
-      this.products.sort((a, b) => a.price - b.price);
-    }
-  }
+  // sortProducts() {
+  //   if (this.sort === 'High to Low') {
+  //     this.products.sort((a, b) => b.price - a.price);
+  //   } else if (this.sort === 'Low to High') {
+  //     this.products.sort((a, b) => a.price - b.price);
+  //   }
+  // }
 
   // loadProducts(category: CategoryType) {
   //   this.products = this.productService.getProductsByCategory(this.category);
@@ -76,12 +76,10 @@ export class ProductOperationsComponent {
     this.dialog.open(GeneralFormComponent, dialogConfig);
   }
   openEditProduct(product: Product) {
-    // this.clickedId = id;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '60%';
     dialogConfig.data = {
       formType: 'Edit Product',
-      // id: this.clickedId,
       product: product,
     };
     this.dialog.open(GeneralFormComponent, dialogConfig);

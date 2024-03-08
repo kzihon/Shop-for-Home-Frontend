@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="product != undefined">
   <a
     [routerLink]="['/home']"
     routerLinkActive="active"
@@ -9,7 +9,7 @@
   <a [routerLink]="['/categories', product.category]">{{ product.category }}</a>
 </div>
 
-<div class="product">
+<div class="product" *ngIf="product != undefined">
   <img
     src="assets/backendImages/{{ product.imageModel.name }}"
     alt=""
@@ -24,10 +24,7 @@
     </div>
     <p>Price: ${{ product.price }}</p>
     <p>
-      description description description description description description
-      description description description description description description
-      description description description description description description
-      description description
+      {{ product.description }}
     </p>
     <div class="quantityComponent">
       <button mat-button (click)="decrease()">-</button>
@@ -35,8 +32,14 @@
       <button mat-button (click)="increase()">+</button>
     </div>
     <app-button-component
+      *ngIf="loggedIn()"
       [text]="'add to cart'"
       (click)="addToCart()"
+    ></app-button-component>
+    <app-button-component
+      *ngIf="!loggedIn()"
+      [text]="'add to cart'"
+      (click)="openSignInDialog()"
     ></app-button-component>
   </div>
 </div>

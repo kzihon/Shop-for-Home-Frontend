@@ -1,11 +1,11 @@
 import { Injectable, WritableSignal, signal } from '@angular/core';
+import { ProductService } from './product.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
   storageKey: string = 'cart-details';
-  // cart: Map<number, number>;
   cart: WritableSignal<Map<number, number>> = signal(null);
   cartSize: WritableSignal<number> = signal(0);
 
@@ -14,7 +14,11 @@ export class CartService {
   }
 
   getCartSize() {
-    return this.cartSize();
+    let count = 0;
+    for (let item of this.cart().values()) {
+      count += item;
+    }
+    return count;
   }
 
   loadCart() {
@@ -24,13 +28,11 @@ export class CartService {
       this.cartSize.set(0);
     } else {
       this.cart.set(new Map(JSON.parse(cartStringified)));
-      this.cartSize.set(this.cart().size);
+      this.cartSize.set(this.getCartSize());
     }
   }
 
   getSavedCart() {
-    console.log('getting saved cart');
-    console.log(localStorage.getItem(this.storageKey));
     return localStorage.getItem(this.storageKey) || null;
   }
 
@@ -40,18 +42,19 @@ export class CartService {
     } else {
       this.cart().set(productId, quantity);
     }
-    this.cartSize.set(this.cart().size);
-    console.log(this.cartSize(), this.cart().size);
+    this.cartSize.set(this.cartSize() + quantity);
     localStorage.setItem(this.storageKey, JSON.stringify([...this.cart()]));
   }
 
   emptyCart() {
     this.cart.set(new Map<number, number>());
+    this.cartSize.set(0);
     localStorage.removeItem(this.storageKey);
   }
 
   removeFromCart(id: number) {
     this.cart().delete(id);
+    this.cartSize.set(this.cartSize() - this.cart().get(id));
     localStorage.setItem(this.storageKey, JSON.stringify([...this.cart()]));
   }
 }
