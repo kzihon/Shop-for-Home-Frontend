@@ -1,1 +1,40 @@
-<p>user-operations works!</p>
+<div>
+  <div class="action">
+    <h2>ADD CUSTOMER</h2>
+    <button mat-button (click)="openCreateCustomer()" class="button">
+      <p class="text">CREATE</p>
+    </button>
+  </div>
+  <hr />
+
+  <div class="action">
+    <h2>EDIT CUSTOMERS</h2>
+    <section class="products">
+      @for (customer of customers; track customer) {
+      <div class="customer">
+        <div class="productCard">
+          <span class="material-icons-outlined">account_circle</span>
+
+          <h2>{{ customer.firstname }} {{ customer.lastname }}</h2>
+          <p>{{ customer.email }}</p>
+        </div>
+        <div class="icons">
+          <div class="icon">
+            <span
+              (click)="openEditCustomer(customer)"
+              class="material-icons-outlined"
+              >edit</span
+            >
+          </div>
+
+          <span
+            (click)="deleteCustomer(customer)"
+            class="material-icons-outlined"
+            >delete</span
+          >
+        </div>
+      </div>
+      }
+    </section>
+  </div>
+</div>

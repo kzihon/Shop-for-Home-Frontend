@@ -1,0 +1,40 @@
+.action {
+  margin: 3%;
+}
+
+.products {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.customer {
+  padding: 2%;
+  flex-basis: 21%;
+}
+
+.img {
+  width: 200px;
+  height: 200px;
+  object-fit: "cover";
+}
+
+.button {
+  margin: 2% 0 2% 0;
+  width: 100px;
+  padding: 1%;
+  border: none;
+}
+
+.text {
+  margin-bottom: 0;
+  text-transform: uppercase;
+}
+
+.icons {
+  display: flex;
+  color: gray;
+}
+
+.icon {
+  margin-right: 20%;
+}

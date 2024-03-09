@@ -32,12 +32,12 @@
       <button mat-button (click)="increase()">+</button>
     </div>
     <app-button-component
-      *ngIf="loggedIn()"
+      *ngIf="loggedIn() && !isAdmin()"
       [text]="'add to cart'"
       (click)="addToCart()"
     ></app-button-component>
     <app-button-component
-      *ngIf="!loggedIn()"
+      *ngIf="!loggedIn() || isAdmin()"
       [text]="'add to cart'"
       (click)="openSignInDialog()"
     ></app-button-component>

@@ -43,12 +43,19 @@
       <input matInput type="text" [formControl]="supplierName" required />
     </mat-form-field>
   </div>
-  <input
+  <!-- <input
     type="file"
     accept="image/x-png, image/gif, image/jpeg"
     (change)="handleImageUpload($event)"
-  />
-
+  /> -->
+  <!-- <div>
+    <input
+      type="file"
+      value="select"
+      #selectFile
+      (change)="onFileSelected($event)"
+    />
+  </div> -->
   <app-button-component
     (click)="formType == 'Create Product' ? createProduct() : editProduct()"
     [text]="formType"

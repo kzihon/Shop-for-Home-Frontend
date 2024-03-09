@@ -1,0 +1,68 @@
+<mat-dialog-content>
+  <div class="dialog">
+    <div class="header">
+      <h2 class="title">{{ formType }}</h2>
+    </div>
+    <div [formGroup]="productForm" validateForm class="form">
+      <div>
+        <mat-form-field class="example-full-width">
+          <mat-label>Product Name </mat-label>
+          <input matInput type="text" formControlName="name" required />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="example-full-width">
+          <mat-label>Product Price </mat-label>
+          <input matInput type="number" formControlName="price" required />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="example-full-width">
+          <mat-label>Product Description </mat-label>
+          <input matInput type="text" formControlName="description" required />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <mat-label>Category</mat-label>
+          <mat-select [(value)]="category" required>
+            <mat-option
+              *ngFor="let category of categories"
+              value="{{ category }}"
+              >{{ category }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="example-full-width">
+          <mat-label>Number In Stock </mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="numberInStock"
+            required
+          />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="example-full-width">
+          <mat-label>Supplier Name</mat-label>
+          <input matInput type="text" formControlName="supplier" required />
+        </mat-form-field>
+      </div>
+    </div>
+    <div *ngIf="formType != 'Edit Product'">
+      <input
+        type="file"
+        value="select"
+        #selectFile
+        (change)="onFileSelected($event)"
+      />
+    </div>
+    <app-button-component
+      (click)="addProduct()"
+      [text]="formType"
+    ></app-button-component>
+  </div>
+</mat-dialog-content>
