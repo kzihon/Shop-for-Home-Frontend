@@ -1,0 +1,39 @@
+<mat-dialog-content>
+  <div class="dialog">
+    <div class="header">
+      <h2 class="title">{{ formType }}</h2>
+    </div>
+    <div [formGroup]="customerForm" validateForm class="form">
+      <div>
+        <mat-form-field class="example-full-width">
+          <mat-label> Email </mat-label>
+          <input matInput type="text" formControlName="email" required />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="example-full-width">
+          <mat-label>First Name </mat-label>
+          <input matInput type="text" formControlName="firstname" required />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="example-full-width">
+          <mat-label>Last Name </mat-label>
+          <input matInput type="text" formControlName="lastname" required />
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="formType == 'Create Customer'">
+        <mat-form-field class="example-full-width">
+          <mat-label>Password</mat-label>
+          <input matInput type="text" formControlName="password" required />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <app-button-component
+      (click)="addCustomer()"
+      [text]="formType"
+    ></app-button-component>
+  </div>
+</mat-dialog-content>

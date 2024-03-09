@@ -40,4 +40,14 @@ export enum CategoryType {
   COUCHES,
   RUGS,
 }
-// export CategoryType: enum =   TABLE, CHAIRS, LAMPS, PLANTS, DECOR, COUCHES, RUGS
+export interface AddProduct {
+  name: string;
+  price: number;
+  description: string;
+  category: string;
+  numberInStock: number;
+  supplier: string;
+}
+export interface FileHandle {
+  file: File;
+}

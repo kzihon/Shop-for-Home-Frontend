@@ -1,7 +1,9 @@
 <div>
   <div class="action">
     <h2>ADD PRODUCT</h2>
-    <button (click)="openCreateProduct()">ADD</button>
+    <button mat-button (click)="openCreateProduct()" class="button">
+      <p class="text">CREATE</p>
+    </button>
   </div>
   <hr />
 
@@ -17,11 +19,21 @@
             class="img"
             fill
           />
+
           <p>{{ product.name }}</p>
         </div>
-        <div>
-          <button (click)="openEditProduct(product)">EDIT</button>
-          <button (click)="deleteProduct(product)">DELETE</button>
+        <div class="icons">
+          <div class="icon">
+            <span
+              (click)="openEditProduct(product)"
+              class="material-icons-outlined"
+              >edit</span
+            >
+          </div>
+
+          <span (click)="deleteProduct(product)" class="material-icons-outlined"
+            >delete</span
+          >
         </div>
       </div>
       }

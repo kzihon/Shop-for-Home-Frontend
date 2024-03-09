@@ -8,6 +8,7 @@ import {
 import { ActivatedRoute, Params } from '@angular/router';
 import { CategoryType, Product } from '../../model';
 import { ProductService } from '../../services/product.service';
+import { ProductFormComponent } from '../product-form/product-form.component';
 
 @Component({
   standalone: true,
@@ -35,7 +36,7 @@ export class ProductOperationsComponent {
     dialogConfig.data = {
       formType: 'Create Product',
     };
-    this.dialog.open(GeneralFormComponent, dialogConfig);
+    this.dialog.open(ProductFormComponent, dialogConfig);
   }
   openEditProduct(product: Product) {
     const dialogConfig = new MatDialogConfig();
@@ -44,7 +45,7 @@ export class ProductOperationsComponent {
       formType: 'Edit Product',
       product: product,
     };
-    this.dialog.open(GeneralFormComponent, dialogConfig);
+    this.dialog.open(ProductFormComponent, dialogConfig);
   }
 
   deleteProduct(product: Product) {

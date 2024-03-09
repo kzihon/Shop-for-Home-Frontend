@@ -135,4 +135,8 @@ export class ProductService {
     console.log({ error });
     return throwError(() => error.message);
   }
+
+  public addProduct(product: FormData) {
+    return this.authorizedHttpService.post('/product/create', product);
+  }
 }

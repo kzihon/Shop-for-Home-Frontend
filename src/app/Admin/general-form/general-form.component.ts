@@ -1,8 +1,16 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormControl } from '@angular/forms';
+import { FormControl, NgForm } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
-import { CategoryType, ImageModel, Product } from '../../model';
+import {
+  AddProduct,
+  CategoryType,
+  FileHandle,
+  ImageModel,
+  Product,
+} from '../../model';
+import { HttpErrorResponse } from '@angular/common/http';
+import { AuthorizedHttpService } from '../../services/authorized-http/authorized-http.service';
 
 @Component({
   selector: 'app-general-form',
@@ -40,9 +48,20 @@ export class GeneralFormComponent {
   product: Product;
   selectedImageFile: File | null = null;
 
+  // product1: AddProduct = {
+  //   name: '',
+  //   price: 0,
+  //   description: '',
+  //   category: '',
+  //   numberInStock: 0,
+  //   supplierName: '',
+  //   productImage: null,
+  // };
+
   constructor(
     private productService: ProductService,
     public dialogRef: MatDialogRef<GeneralFormComponent>,
+    private authorizedHttp: AuthorizedHttpService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     console.log(this.categories);
@@ -166,4 +185,66 @@ export class GeneralFormComponent {
       this.closeDialog();
     }
   }
+
+  // onFileSelected(event) {
+  //   if (event.target.files) {
+  //     const file = event.target.files[0];
+  //     const fileHandle: FileHandle = {
+  //       file: file,
+  //       // url:this.sanitizer.bypassSecurityTrustHtml(window.URL.createObjectURL(file))
+  //     };
+  //     this.product1.productImage = fileHandle;
+  //   }
+  //   // console.log(event);
+  // }
+  // // loadCustomers() {
+  // //   this.authorizedHttpService.get('/customer/').subscribe({
+  // //     next: (res) => {
+  // //       console.log(res);
+  // //       this.customers = res;
+  // //     },
+  // //     error: (errorMessage) => {
+  // //       console.log(errorMessage);
+  // //     },
+  // //   });
+  // // }
+
+  // addProduct(productForm: NgForm) {
+  //   const productFormData = this.prepareFormData(this.product1);
+  //   this.authorizedHttp.post('/product/create', productFormData).subscribe(
+  //     (response) => {
+  //       productForm.reset();
+  //     },
+  //     (error: HttpErrorResponse) => {
+  //       console.log(error);
+  //     }
+  //   );
+  //   // this.productService.addProduct(productFormData).subscribe(
+  //   //   (response) => {
+  //   //     productForm.reset();
+  //   //   },
+  //   //   (error: HttpErrorResponse) => {
+  //   //     console.log(error);
+  //   //   }
+  //   // );
+  // }
+  // prepareFormData(product: AddProduct): FormData {
+  //   const formData = new FormData();
+  //   formData.append(
+  //     'product',
+  //     // this.name.value,
+  //     //     this.price.value,
+  //     //     this.description.value,
+  //     //     this.category,
+  //     //     this.numberInStock.value,
+  //     //     this.supplierName.value,
+  //     new Blob([JSON.stringify(product)], { type: 'application/json' })
+  //   );
+  //   formData.append(
+  //     'imageFile',
+  //     product.productImage.file,
+  //     product.productImage.file.name
+  //   );
+  //   return formData;
+  // }
 }
