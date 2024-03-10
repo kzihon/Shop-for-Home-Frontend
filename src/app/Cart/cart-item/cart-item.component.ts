@@ -9,7 +9,7 @@ import { CartService } from '../../services/cart.service';
   styleUrl: './cart-item.component.scss',
 })
 export class CartItemComponent {
-  @Input() id: number;
+  @Input() productId: number;
   @Input() quantity: number;
   public product: Product;
 
@@ -19,11 +19,20 @@ export class CartItemComponent {
   ) {}
 
   ngOnInit(): void {
-    this.product = this.productService.getProductById(this.id);
+    this.loadProduct(this.productId);
+    console.log(this.productId, this.product);
+  }
+  loadProduct(id: number) {
+    this.productService
+      .getProductByIdDB(this.productId)
+      .subscribe((product: Product) => {
+        this.product = product;
+        console.log('here', product, this.product);
+      });
   }
 
   removeItem() {
-    this.cartService.removeFromCart(this.id);
+    this.cartService.removeFromCart(this.productId);
   }
 
   increase() {

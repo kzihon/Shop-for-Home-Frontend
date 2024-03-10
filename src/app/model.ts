@@ -51,3 +51,13 @@ export interface AddProduct {
 export interface FileHandle {
   file: File;
 }
+
+export interface EditProductWOImage {
+  productId: number;
+  name: string;
+  price: number;
+  description: string;
+  category: CategoryType;
+  numberInStock: number;
+  supplier: string;
+}

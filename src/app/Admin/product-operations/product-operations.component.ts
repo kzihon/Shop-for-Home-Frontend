@@ -28,7 +28,9 @@ export class ProductOperationsComponent {
     private dialog: MatDialog
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.productsSignal());
+  }
 
   openCreateProduct() {
     const dialogConfig = new MatDialogConfig();
