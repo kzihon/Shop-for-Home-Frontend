@@ -52,7 +52,7 @@
         </mat-form-field>
       </div>
     </div>
-    <div *ngIf="formType != 'Edit Product'">
+    <div>
       <input
         type="file"
         value="select"
@@ -61,7 +61,7 @@
       />
     </div>
     <app-button-component
-      (click)="addProduct()"
+      (click)="formType == 'Create Product' ? addProduct() : editProduct()"
       [text]="formType"
     ></app-button-component>
   </div>

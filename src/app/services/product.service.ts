@@ -59,8 +59,8 @@ export class ProductService {
     return this.productsSignal().filter((product) => product.name === name)[0];
   }
 
-  createProductFrontend(product: Product) {
-    console.log('creating product: ', product);
+  createProductFrontend(product) {
+    console.log('creating product frontend: ', product);
     this.productsSignal().push(product);
   }
 
@@ -85,7 +85,7 @@ export class ProductService {
     });
   }
 
-  editProductFrontend(oldProduct: Product, product: Product) {
+  editProductFrontend(oldProduct: Product, product) {
     let index = this.productsSignal().indexOf(oldProduct);
     if (index > -1) {
       this.productsSignal()[index] = product;
@@ -109,6 +109,7 @@ export class ProductService {
     );
   }
   deleteProductFrontend(product: Product) {
+    console.log('deleting product frontend');
     let index = this.productsSignal().indexOf(product);
     if (index > -1) {
       this.productsSignal().splice(index, 1);
@@ -127,8 +128,11 @@ export class ProductService {
       `${env.SERVER_URI}/product/byCategory?category=${category}`
     );
   }
-  public getProductByIdDB(productId: number): Observable<Product> {
-    return this.http.get<Product>(`${env.SERVER_URI}/product/${productId}`);
+  // public getProductByIdDB(productId: number): Observable<Product> {
+  //   return this.http.get<Product>(`${env.SERVER_URI}/product/${productId}`);
+  // }
+  public getProductByIdDB(productId: number) {
+    return this.authorizedHttpService.get(`/product/${productId}`);
   }
 
   private handleError({ error }: HttpErrorResponse) {

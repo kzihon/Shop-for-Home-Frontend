@@ -1,6 +1,12 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { AddProduct, CategoryType, FileHandle } from '../../model';
+import {
+  AddProduct,
+  CategoryType,
+  EditProductWOImage,
+  FileHandle,
+  Product,
+} from '../../model';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthorizedHttpService } from '../../services/authorized-http/authorized-http.service';
 import { ProductService } from '../../services/product.service';
@@ -34,6 +40,7 @@ export class ProductFormComponent {
     supplier: '',
   };
   productImage: FileHandle;
+  selectedProduct: Product;
 
   constructor(
     private productService: ProductService,
@@ -48,15 +55,18 @@ export class ProductFormComponent {
 
   ngOnInit(): void {
     if (this.formType == 'Edit Product') {
-      let selectedProduct = this.data.product;
+      this.selectedProduct = this.data.product;
       this.productForm = this.fb.group({
-        name: [selectedProduct.name, [Validators.required]],
-        price: [selectedProduct.price, [Validators.required]],
-        description: [selectedProduct.description, [Validators.required]],
-        numberInStock: [selectedProduct.numberInStock, [Validators.required]],
-        supplier: [selectedProduct.supplier, [Validators.required]],
+        name: [this.selectedProduct.name, [Validators.required]],
+        price: [this.selectedProduct.price, [Validators.required]],
+        description: [this.selectedProduct.description, [Validators.required]],
+        numberInStock: [
+          this.selectedProduct.numberInStock,
+          [Validators.required],
+        ],
+        supplier: [this.selectedProduct.supplier, [Validators.required]],
       });
-      this.category = selectedProduct.category;
+      this.category = this.selectedProduct.category;
     } else {
       this.productForm = this.fb.group({
         name: ['', [Validators.required]],
@@ -100,6 +110,8 @@ export class ProductFormComponent {
 
       this.authorizedHttp.post('/product/create', productFormData).subscribe({
         next: (product) => {
+          this.productService.createProductFrontend(product);
+
           console.log(product);
           this.productForm.reset();
         },
@@ -110,7 +122,83 @@ export class ProductFormComponent {
     }
   }
 
-  prepareFormData(product: AddProduct): FormData {
+  editProduct() {
+    if (this.productImage == null) {
+      return this.editProductWOImage();
+    }
+    if (this.isIncomplete()) {
+      console.log(
+        'fill out required fields',
+        this.productForm.get(['name'])!.value
+      );
+    } else {
+      let prod = {
+        productId: this.selectedProduct.productId,
+        name: this.productForm.get(['name'])!.value,
+        price: this.productForm.get(['price'])!.value,
+        description: this.productForm.get(['description'])!.value,
+        category: this.category,
+        numberInStock: this.productForm.get(['numberInStock'])!.value,
+        supplier: this.productForm.get(['supplier'])!.value,
+      };
+
+      const productFormData = this.prepareFormData(prod);
+
+      this.authorizedHttp
+        .put(`/product/${this.selectedProduct.productId}`, productFormData)
+        .subscribe({
+          next: (product) => {
+            this.productService.editProductFrontend(
+              this.selectedProduct,
+              product
+            );
+
+            console.log(product);
+            this.productForm.reset();
+          },
+          error: (errorMessage) => {
+            console.log(errorMessage);
+          },
+        });
+    }
+  }
+
+  editProductWOImage() {
+    if (this.isIncomplete()) {
+      console.log('fill out required fields');
+    } else {
+      let prod: EditProductWOImage = {
+        productId: this.selectedProduct.productId,
+        name: this.productForm.get(['name'])!.value,
+        price: this.productForm.get(['price'])!.value,
+        description: this.productForm.get(['description'])!.value,
+        category: this.category,
+        numberInStock: this.productForm.get(['numberInStock'])!.value,
+        supplier: this.productForm.get(['supplier'])!.value,
+      };
+      this.authorizedHttp
+        .put(
+          `/product/updateWithNoImage/${this.selectedProduct.productId}`,
+          prod
+        )
+        .subscribe({
+          next: (product) => {
+            this.productService.editProductFrontend(
+              this.selectedProduct,
+              product
+            );
+
+            console.log(product);
+            this.productForm.reset();
+          },
+          error: (errorMessage) => {
+            console.log(errorMessage);
+          },
+        });
+    }
+  }
+
+  prepareFormData(product): FormData {
     const formData = new FormData();
     formData.append(
       'product',
@@ -134,11 +222,15 @@ export class ProductFormComponent {
       this.productForm.get(['numberInStock'])!.value == null ||
       this.productForm.get(['numberInStock'])!.value <= 0 ||
       this.productForm.get(['supplier'])!.value == '' ||
-      this.productImage == null
+      (this.formType == 'Edit Product' ? false : this.productImage == null)
     ) {
       return true;
     } else {
       return false;
     }
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
   }
 }
