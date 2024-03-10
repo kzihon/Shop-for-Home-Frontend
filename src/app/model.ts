@@ -51,3 +51,26 @@ export interface AddProduct {
 export interface FileHandle {
   file: File;
 }
+export interface Order{
+  orderId:number
+ subTotal:number
+  discount:number
+  totalBeforeTax:number
+  estimatedTaxToBeCollected:number
+  orderTotal:number
+
+}
+export interface Coupon {
+id:number
+code:string
+discount:number
+active:boolean
+}
+export interface ShoppingCart {
+  cartItems: CartItem[];
+}
+
+export interface CartItem {
+  productId: number;
+  quantity: number;
+}

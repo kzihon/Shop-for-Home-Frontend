@@ -5,7 +5,7 @@
 <div class="content">
   <div class="items">
     <app-cart-item
-      [id]="item.key"
+      [productId]="item.key"
       [quantity]="item.value"
       *ngFor="let item of cartMap() | keyvalue"
     ></app-cart-item>

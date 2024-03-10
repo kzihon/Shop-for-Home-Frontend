@@ -13,7 +13,7 @@ import { AuthLocalStorageService } from '../../services/auth-local-storage/auth-
   styleUrl: './product-page.component.scss',
 })
 export class ProductPageComponent {
-  id: number;
+  productId: number;
   product: Product;
   quantity: number = 1;
   productQuantity: number;
@@ -34,14 +34,16 @@ export class ProductPageComponent {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.id = params['productId'];
+      this.productId = params['productId'];
     });
-    this.loadProduct(this.id);
+    this.loadProduct(this.productId);
   }
   loadProduct(id: number) {
-    this.productService.getProductByIdDB(id).subscribe((product: Product) => {
-      this.product = product;
-      this.productQuantity = product.numberInStock;
+   // this.product=this.productService.getProductByIdServer(this.productId);
+
+    this.productService.getProductByIdServer(this.productId).subscribe((product1: Product) => {
+      this.product = product1;
+      this.productQuantity = product1.numberInStock;
     });
   }
 

@@ -1,10 +1,16 @@
 <div class="totalCard">
-  <h2>TOTAL</h2>
-  <p>Subtotal: ${{ subtotal() | roundPrice }}</p>
-  <p>Tax:</p>
-  <p>Discounts:</p>
-  <br />
-
-  <p>Total:</p>
-  <app-button-component [text]="'checkout'"></app-button-component>
+  <!-- <h2>TOTAL</h2> -->
+  <!-- <p>Subtotal: ${{ subtotal() }}</p> -->
+  <!-- Enter your coupone code below if you have one before you checkout<br> -->
+  Got a coupone code? Please enter below ⬇️ if you got one!<br>
+  <div class="coupon">
+    <input [formControl]="couponCode" type="text" >
+    <!-- //<app-button-component  [text]="'verify coupon'"></app-button-component> -->
+    <button  (click)="verifyCoupon()">verify</button>
+    <p *ngIf="isVerified && couponCode"> coupone verified</p>
+    <p *ngIf="!isVerified && couponCode"> coupone not verified</p>
+  </div>
+  
+ 
+  <app-button-component  [text]="'checkout'" (click)="openCheckOutDialog()"></app-button-component>
 </div>
