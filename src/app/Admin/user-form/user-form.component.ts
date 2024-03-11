@@ -7,6 +7,7 @@ import { ProductService } from '../../services/product.service';
 import { GeneralFormComponent } from '../general-form/general-form.component';
 import { AuthService } from '../../services/auth/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-user-form',
@@ -16,6 +17,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class UserFormComponent {
   customerForm!: FormGroup;
   formType: string;
+  selectedCustomer;
 
   productForCreate: AddProduct = {
     name: '',
@@ -27,12 +29,12 @@ export class UserFormComponent {
   };
 
   constructor(
-    public dialogRef: MatDialogRef<GeneralFormComponent>,
+    public dialogRef: MatDialogRef<UserFormComponent>,
     private authorizedHttp: AuthorizedHttpService,
     private fb: FormBuilder,
     private authService: AuthService,
     private snackBar: MatSnackBar,
-
+    private userService: UserService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.formType = this.data.formType;
@@ -40,11 +42,10 @@ export class UserFormComponent {
 
   ngOnInit(): void {
     if (this.formType == 'Edit Customer') {
-      let selectedCustomer = this.data.customer;
+      this.selectedCustomer = this.data.customer;
       this.customerForm = this.fb.group({
-        email: [selectedCustomer.email, [Validators.required]],
-        firstname: [selectedCustomer.firstname, [Validators.required]],
-        lastname: [selectedCustomer.lastname, [Validators.required]],
+        firstname: [this.selectedCustomer.firstname, [Validators.required]],
+        lastname: [this.selectedCustomer.lastname, [Validators.required]],
       });
     } else {
       this.customerForm = this.fb.group({
@@ -61,13 +62,15 @@ export class UserFormComponent {
       console.log('fill out required fields');
     } else {
       this.authService.register(this.customerForm.value).subscribe({
-        next: () => {
+        next: (res) => {
+          this.userService.addCustomerFrontend(res.user);
+          console.log(res);
           this.snackBar.open('Registration successful!', 'Close', {
             duration: 5000,
             verticalPosition: 'top',
             panelClass: 'success-snackbar',
           });
-
+          this.closeDialog();
           this.dialogRef.close();
           this.customerForm.reset();
         },
@@ -82,16 +85,70 @@ export class UserFormComponent {
     }
   }
 
+  editCustomer() {
+    if (this.isIncomplete()) {
+      console.log('fill out required fields');
+    } else {
+      console.log(this.customerForm.value);
+      this.authorizedHttp
+        .put(
+          `/customer/update/${this.selectedCustomer.id}`,
+          this.customerForm.value
+        )
+        .subscribe({
+          next: (user) => {
+            this.userService.editCustomerFrontend(this.selectedCustomer, user);
+            this.closeDialog();
+            console.log(user);
+            this.customerForm.reset();
+          },
+          error: (errorMessage) => {
+            console.log(errorMessage);
+          },
+        });
+
+      // this.userService.editCustomer(this.customerForm.value).subscribe({
+      //   next: (res) => {
+      //     // this.userService.addCustomerFrontend(res.user);
+
+      //     this.snackBar.open('Edit customer successful!', 'Close', {
+      //       duration: 5000,
+      //       verticalPosition: 'top',
+      //       panelClass: 'success-snackbar',
+      //     });
+
+      //     this.dialogRef.close();
+      //     this.customerForm.reset();
+      //   },
+      //   error: (errorMessage) => {
+      //     this.snackBar.open(errorMessage || 'Uknown error occured.', 'Close', {
+      //       duration: 5000,
+      //       verticalPosition: 'top',
+      //       panelClass: 'error-snackbar',
+      //     });
+      //   },
+      // });
+    }
+  }
+
   isIncomplete() {
     if (
-      this.customerForm.get(['email'])!.value == '' ||
+      (this.formType == 'Edit Customer'
+        ? false
+        : this.customerForm.get(['email'])!.value == '') ||
       this.customerForm.get(['firstname'])!.value == '' ||
       this.customerForm.get(['lastname'])!.value == '' ||
-      this.customerForm.get(['password'])!.value == ''
+      (this.formType == 'Edit Customer'
+        ? false
+        : this.customerForm.get(['password'])!.value == '')
     ) {
       return true;
     } else {
       return false;
     }
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
   }
 }

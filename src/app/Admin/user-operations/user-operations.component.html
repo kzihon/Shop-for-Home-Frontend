@@ -10,7 +10,7 @@
   <div class="action">
     <h2>EDIT CUSTOMERS</h2>
     <section class="products">
-      @for (customer of customers; track customer) {
+      @for (customer of customers(); track customer) {
       <div class="customer">
         <div class="productCard">
           <span class="material-icons-outlined">account_circle</span>

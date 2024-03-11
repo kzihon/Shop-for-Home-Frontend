@@ -44,7 +44,7 @@ export class ProductFormComponent {
 
   constructor(
     private productService: ProductService,
-    public dialogRef: MatDialogRef<GeneralFormComponent>,
+    public dialogRef: MatDialogRef<ProductFormComponent>,
     private authorizedHttp: AuthorizedHttpService,
     private fb: FormBuilder,
 
@@ -111,7 +111,7 @@ export class ProductFormComponent {
       this.authorizedHttp.post('/product/create', productFormData).subscribe({
         next: (product) => {
           this.productService.createProductFrontend(product);
-
+          this.closeDialog();
           console.log(product);
           this.productForm.reset();
         },
@@ -152,7 +152,7 @@ export class ProductFormComponent {
               this.selectedProduct,
               product
             );
-
+            this.closeDialog();
             console.log(product);
             this.productForm.reset();
           },
@@ -187,7 +187,7 @@ export class ProductFormComponent {
               this.selectedProduct,
               product
             );
-
+            this.closeDialog();
             console.log(product);
             this.productForm.reset();
           },
