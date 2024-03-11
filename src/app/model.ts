@@ -40,6 +40,11 @@ export enum CategoryType {
   COUCHES,
   RUGS,
 }
+export enum IsActive{
+  true,
+  false
+
+}
 export interface AddProduct {
   name: string;
   price: number;
@@ -60,4 +65,34 @@ export interface EditProductWOImage {
   category: CategoryType;
   numberInStock: number;
   supplier: string;
+}
+export interface Order{
+  orderId:number
+ subTotal:number
+  discount:number
+  totalBeforeTax:number
+  estimatedTaxToBeCollected:number
+  orderTotal:number
+
+}
+export interface Coupon {
+id:number
+couponName:string,
+code:string
+discount:number
+active:boolean
+}
+export interface AddCoupon {
+  couponName:string,
+  code:string
+  discount:number
+  active:boolean
+  }
+export interface ShoppingCart {
+  cartItems: CartItem[];
+}
+
+export interface CartItem {
+  productId: number;
+  quantity: number;
 }

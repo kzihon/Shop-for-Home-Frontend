@@ -5,6 +5,8 @@
 <div class="content">
   <div class="items">
     <app-cart-item
+      [productId]="item.key"
+      [quantity]="item.value"
       *ngFor="let item of cartMap() | keyvalue"
       [productId]="item.key"
       [quantity]="item.value"

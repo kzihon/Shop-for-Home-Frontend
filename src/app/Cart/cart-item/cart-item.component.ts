@@ -20,16 +20,14 @@ export class CartItemComponent {
 
   ngOnInit(): void {
     this.loadProduct(this.productId);
-    console.log(this.productId, this.product);
   }
   loadProduct(id: number) {
-    this.productService
-      .getProductByIdDB(this.productId)
-      .subscribe((product: Product) => {
-        this.product = product;
-        console.log('here', product, this.product);
-      });
+    this.productService.getProductByIdServer(this.productId).subscribe((product: Product) => {
+      this.product = product;
+    });
   }
+
+
 
   removeItem() {
     this.cartService.removeFromCart(this.productId);

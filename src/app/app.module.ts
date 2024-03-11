@@ -40,6 +40,8 @@ import { ProductWishlistButtonComponent } from './Buttons/product-wishlist-butto
 import { RoundPricePipe } from './pipes/round-price/round-price.pipe';
 import { ProductFormComponent } from './Admin/product-form/product-form.component';
 import { UserFormComponent } from './Admin/user-form/user-form.component';
+import { OrderComponent } from './order/order.component';
+import { CouponFormComponent } from './Admin/coupon-form/coupon-form.component'; 
 
 @NgModule({
   declarations: [
@@ -69,6 +71,8 @@ import { UserFormComponent } from './Admin/user-form/user-form.component';
     ProductWishlistButtonComponent,
     ProductFormComponent,
     UserFormComponent,
+    OrderComponent,
+    CouponFormComponent,
   ],
   providers: [provideAnimationsAsync()],
   bootstrap: [AppComponent],
