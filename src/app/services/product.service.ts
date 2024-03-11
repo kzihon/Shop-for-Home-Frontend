@@ -139,7 +139,9 @@ export class ProductService {
     console.log({ error });
     return throwError(() => error.message);
   }
-
+  public getProductByIdServer(productId: number){
+   return this.authorizedHttpService.get(`/product/${productId}`)
+  }
   public addProduct(product: FormData) {
     return this.authorizedHttpService.post('/product/create', product);
   }

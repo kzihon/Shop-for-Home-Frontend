@@ -16,8 +16,11 @@ export class ShoppingCartPageComponent implements OnInit {
 
   constructor(private cartService: CartService) {}
 
-  ngOnInit(): void {
-    this.productIds = Array.from(this.cartMap().keys());
-    console.log(this.productIds, this.cartMap());
+  ngOnInit (): void {
+    this.productIds = Array.from(this.cartMap().keys())
+    console.log(this.cartMap());
+    console.log(this.productIds);
+    
+    
   }
 }

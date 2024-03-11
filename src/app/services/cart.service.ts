@@ -1,16 +1,22 @@
 import { Injectable, WritableSignal, signal } from '@angular/core';
 import { ProductService } from './product.service';
+import { HttpClient } from '@angular/common/http';
+import { AuthorizedHttpService } from './authorized-http/authorized-http.service';
+import { ShoppingCart } from '../model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
+  
   storageKey: string = 'cart-details';
   cart: WritableSignal<Map<number, number>> = signal(null);
   cartSize: WritableSignal<number> = signal(0);
 
-  constructor() {
+  constructor(private http: HttpClient,
+    private authorizedHttpService: AuthorizedHttpService) {
     this.loadCart();
+    
   }
 
   getCartSize() {
@@ -23,7 +29,10 @@ export class CartService {
 
   loadCart() {
     const cartStringified = this.getSavedCart();
+    console.log(cartStringified);
+
     if (cartStringified == null) {
+      
       this.cart.set(new Map<number, number>());
       this.cartSize.set(0);
     } else {
@@ -31,7 +40,30 @@ export class CartService {
       this.cartSize.set(this.getCartSize());
     }
   }
+  public addProduct(product: FormData) {
+    return this.authorizedHttpService.post('/product/create', product);
+  }
+  getShoppingCart(): ShoppingCart {
+    const shoppingCartMap = this.cart();
+  
+    return {
+      cartItems: Array.from(shoppingCartMap.entries()).map(([productId, quantity]) => ({
+        productId,
+        quantity,
+      })),
+    };
+  }
+  sendCartToServerWithOutCoupons(customerId: number){
+    let shoppingcart:ShoppingCart=this.getShoppingCart();
+    return this.authorizedHttpService.post(`/customer/${customerId}/shopping-cart/`,shoppingcart);
 
+   // return this.authorizedHttpService.post(`/customer/${customerId}/shopping-cart/`,{ cartItems: [...this.cart()] });
+
+  }
+  sendCartToServerWithCoupons(customerId: number, couponCode: string) {
+    let shoppingcart:ShoppingCart=this.getShoppingCart();
+    return this.authorizedHttpService.post(`/customer/${customerId}/shopping-cart/coupon/${couponCode}`,shoppingcart);
+  }
   getSavedCart() {
     return localStorage.getItem(this.storageKey) || null;
   }
@@ -52,9 +84,10 @@ export class CartService {
     localStorage.removeItem(this.storageKey);
   }
 
-  removeFromCart(id: number) {
-    this.cart().delete(id);
-    this.cartSize.set(this.cartSize() - this.cart().get(id));
+  removeFromCart(productId: number) {
+    let count=this.cart().get(productId);
+    this.cart().delete(productId);
+    this.cartSize.set(this.cartSize() - count);
     localStorage.setItem(this.storageKey, JSON.stringify([...this.cart()]));
   }
 }
