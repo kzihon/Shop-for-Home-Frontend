@@ -8,6 +8,7 @@ import { ShoppingCart } from '../model';
   providedIn: 'root',
 })
 export class CartService {
+  
   storageKey: string = 'cart-details';
   cart: WritableSignal<Map<number, number>> = signal(null);
   cartSize: WritableSignal<number> = signal(0);
@@ -28,7 +29,10 @@ export class CartService {
 
   loadCart() {
     const cartStringified = this.getSavedCart();
+    console.log(cartStringified);
+
     if (cartStringified == null) {
+      
       this.cart.set(new Map<number, number>());
       this.cartSize.set(0);
     } else {
@@ -55,6 +59,10 @@ export class CartService {
 
    // return this.authorizedHttpService.post(`/customer/${customerId}/shopping-cart/`,{ cartItems: [...this.cart()] });
 
+  }
+  sendCartToServerWithCoupons(customerId: number, couponCode: string) {
+    let shoppingcart:ShoppingCart=this.getShoppingCart();
+    return this.authorizedHttpService.post(`/customer/${customerId}/shopping-cart/coupon/${couponCode}`,shoppingcart);
   }
   getSavedCart() {
     return localStorage.getItem(this.storageKey) || null;

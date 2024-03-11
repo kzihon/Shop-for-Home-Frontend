@@ -41,6 +41,7 @@ import { RoundPricePipe } from './pipes/round-price/round-price.pipe';
 import { ProductFormComponent } from './Admin/product-form/product-form.component';
 import { UserFormComponent } from './Admin/user-form/user-form.component';
 import { OrderComponent } from './order/order.component';
+import { CouponFormComponent } from './Admin/coupon-form/coupon-form.component'; 
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { OrderComponent } from './order/order.component';
     ProductFormComponent,
     UserFormComponent,
     OrderComponent,
+    CouponFormComponent,
   ],
   providers: [provideAnimationsAsync()],
   bootstrap: [AppComponent],

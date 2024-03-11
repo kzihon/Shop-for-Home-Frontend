@@ -1,0 +1,42 @@
+<div>
+    <div class="action">
+      <h2>ADD COUPON</h2>
+      <button mat-button (click)="openCreateCoupon()" class="button">
+        <p class="text">CREATE</p>
+      </button>
+    </div>
+    <hr />
+  
+    <div class="action">
+      <h2>EDIT COUPONS</h2>
+      <section class="coupons">
+        @for (coupon of couponsSignal(); track coupon) {
+        <div class="coupon">
+          <div class="productCard">
+            <!-- <span class="material-icons-outlined">account_circle</span> -->
+            <h2>Coupon Name: {{ coupon.couponName }} </h2>
+            <h2>Coupon Code: {{ coupon.code }} </h2>
+            <h2>Discount Percentage: {{ coupon.discount }}%</h2>
+            <h2>Is Active: {{ coupon.active }}</h2>
+          </div>
+          <div class="icons">
+            <div class="icon">
+              <span
+                (click)="openEditCoupon(coupon)"
+                class="material-icons-outlined"
+                >edit</span
+              >
+            </div>
+  
+            <span
+              (click)="deleteCoupon(coupon)"
+              class="material-icons-outlined"
+              >delete</span
+            >
+          </div>
+        </div>
+        }
+      </section>
+    </div>
+  </div>
+  

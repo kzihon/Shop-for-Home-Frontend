@@ -5,6 +5,8 @@ import { AddProduct, FileHandle } from '../../model';
 import { AuthorizedHttpService } from '../../services/authorized-http/authorized-http.service';
 import { ProductService } from '../../services/product.service';
 import { GeneralFormComponent } from '../general-form/general-form.component';
+import { AuthService } from '../../services/auth/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-user-form',
@@ -28,6 +30,8 @@ export class UserFormComponent {
     public dialogRef: MatDialogRef<GeneralFormComponent>,
     private authorizedHttp: AuthorizedHttpService,
     private fb: FormBuilder,
+    private authService: AuthService,
+    private snackBar: MatSnackBar,
 
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -56,6 +60,25 @@ export class UserFormComponent {
     if (this.isIncomplete()) {
       console.log('fill out required fields');
     } else {
+      this.authService.register(this.customerForm.value).subscribe({
+        next: () => {
+          this.snackBar.open('Registration successful!', 'Close', {
+            duration: 5000,
+            verticalPosition: 'top',
+            panelClass: 'success-snackbar',
+          });
+
+          this.dialogRef.close();
+          this.customerForm.reset();
+        },
+        error: (errorMessage) => {
+          this.snackBar.open(errorMessage || 'Uknown error occured.', 'Close', {
+            duration: 5000,
+            verticalPosition: 'top',
+            panelClass: 'error-snackbar',
+          });
+        },
+      });
     }
   }
 

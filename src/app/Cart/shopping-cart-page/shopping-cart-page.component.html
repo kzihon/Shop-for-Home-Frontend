@@ -8,6 +8,8 @@
       [productId]="item.key"
       [quantity]="item.value"
       *ngFor="let item of cartMap() | keyvalue"
+      [productId]="item.key"
+      [quantity]="item.value"
     ></app-cart-item>
   </div>
 

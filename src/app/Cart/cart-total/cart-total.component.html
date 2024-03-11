@@ -5,7 +5,6 @@
   Got a coupone code? Please enter below ⬇️ if you got one!<br>
   <div class="coupon">
     <input [formControl]="couponCode" type="text" >
-    <!-- //<app-button-component  [text]="'verify coupon'"></app-button-component> -->
     <button  (click)="verifyCoupon()">verify</button>
     <p *ngIf="isVerified && couponCode"> coupone verified</p>
     <p *ngIf="!isVerified && couponCode"> coupone not verified</p>
