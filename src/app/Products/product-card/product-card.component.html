@@ -11,12 +11,22 @@
         class="img"
       />
     </div>
-    <div class="heart">
-      <p>{{ product.name }}</p>
-    </div>
-    <p>${{ product.price }}</p>
   </a>
-  <app-product-wishlist-button
-    [productId]="product.productId"
-  ></app-product-wishlist-button>
+
+  <div class="bottom">
+    <a
+      [routerLink]="['/product', product.productId]"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <div class="details">
+        <h3>{{ product.name }}</h3>
+        <p>${{ product.price }}</p>
+      </div>
+    </a>
+
+    <app-product-wishlist-button
+      [productId]="product.productId"
+    ></app-product-wishlist-button>
+  </div>
 </div>

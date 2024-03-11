@@ -39,12 +39,14 @@ export class ProductPageComponent {
     this.loadProduct(this.productId);
   }
   loadProduct(id: number) {
-   // this.product=this.productService.getProductByIdServer(this.productId);
+    // this.product=this.productService.getProductByIdServer(this.productId);
 
-    this.productService.getProductByIdServer(this.productId).subscribe((product1: Product) => {
-      this.product = product1;
-      this.productQuantity = product1.numberInStock;
-    });
+    this.productService
+      .getProductByIdDB(this.productId)
+      .subscribe((product1: Product) => {
+        this.product = product1;
+        this.productQuantity = product1.numberInStock;
+      });
   }
 
   addToCart() {

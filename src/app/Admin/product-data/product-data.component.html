@@ -1,0 +1,21 @@
+<div class="action">
+  <h2>PRODUCTS LOW IN STOCK</h2>
+  <p>(less than 10)</p>
+  <section class="products">
+    @for (product of productsSignal(); track product) {
+    <div class="product" *ngIf="product.numberInStock <= 10">
+      <div class="productCard">
+        <img
+          src="assets/backendImages/{{ product.imageModel.name }}"
+          alt=""
+          class="img"
+          fill
+        />
+        <H3>QUANTITY: {{ product.numberInStock }}</H3>
+
+        <p>{{ product.name }}</p>
+      </div>
+    </div>
+    }
+  </section>
+</div>

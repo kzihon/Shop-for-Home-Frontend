@@ -131,16 +131,16 @@ export class ProductService {
   // public getProductByIdDB(productId: number): Observable<Product> {
   //   return this.http.get<Product>(`${env.SERVER_URI}/product/${productId}`);
   // }
-  public getProductByIdDB(productId: number) {
-    return this.authorizedHttpService.get(`/product/${productId}`);
+  public getProductByIdDB(productId: number): Observable<Product> {
+    return this.http.get<Product>(`${env.SERVER_URI}/product/${productId}`);
   }
 
   private handleError({ error }: HttpErrorResponse) {
     console.log({ error });
     return throwError(() => error.message);
   }
-  public getProductByIdServer(productId: number){
-   return this.authorizedHttpService.get(`/product/${productId}`)
+  public getProductByIdServer(productId: number) {
+    return this.authorizedHttpService.get(`/product/${productId}`);
   }
   public addProduct(product: FormData) {
     return this.authorizedHttpService.post('/product/create', product);

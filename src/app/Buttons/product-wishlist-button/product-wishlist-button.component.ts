@@ -13,7 +13,7 @@ import { WishlistService } from '../../services/wishlist/wishlist.service';
 export class ProductWishlistButtonComponent {
   @Input() productId: number;
 
-  inWishlist: boolean;
+  inWishlist: boolean = false;
   loggedIn: Signal<boolean> = computed(() =>
     this.authLocalStorageService.isAuthenticated()
   );
@@ -28,24 +28,33 @@ export class ProductWishlistButtonComponent {
   ) {}
 
   ngOnInit(): void {
-    if (
-      this.authLocalStorageService.isAuthenticated &&
-      !this.authLocalStorageService.isAdmin
-    ) {
+    if (this.loggedIn() && !this.isAdmin()) {
       this.wishlistService.getWishlist().subscribe((wishlist: any) => {
-        this.inWishlist = wishlist.includes(this.productId);
+        wishlist.forEach((element) => {
+          if (element.productId == this.productId) {
+            this.inWishlist = true;
+          }
+        });
       });
     }
   }
 
   heartClick() {
-    // if (this.inWishlist) {
-    //   this.userService.removeFromWishlist(this.productId)
-    //   this.inWishlist = false
-    // } else {
-    //   this.userService.addToWishlist(this.productId)
-    //   this.inWishlist = true
-    // }
+    if (this.inWishlist) {
+      this.wishlistService.removeFromWishlist(this.productId).subscribe({
+        next: (res) => {},
+        error: (errorMessage) => {},
+      });
+      this.wishlistService.removeFromWishListFE(this.productId);
+      this.inWishlist = false;
+    } else {
+      this.wishlistService.addToWishlist(this.productId).subscribe({
+        next: (res) => {},
+        error: (errorMessage) => {},
+      });
+      this.inWishlist = true;
+      this.wishlistService.addToWishlistFE(this.productId);
+    }
   }
 
   openSignInDialog() {

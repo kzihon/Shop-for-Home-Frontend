@@ -24,11 +24,15 @@
         </mat-form-field>
       </div>
     </div>
-    <button mat-raised-button color="primary" (click)="signIn()">
+    <app-button-component
+      (click)="signIn()"
+      [text]="'sign in'"
+    ></app-button-component>
+    <!-- <button mat-raised-button color="primary" (click)="signIn()">
       SIGN IN
-    </button>
+    </button> -->
 
-    <p>
+    <p class="link">
       Don't have an account?
       <a routerLink="/signUp" (click)="openSignUpDialog()"> SIGN UP </a>
     </p>

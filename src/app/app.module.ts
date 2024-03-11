@@ -38,10 +38,10 @@ import { ButtonComponentComponent } from './Buttons/button-component/button-comp
 import { GeneralFormComponent } from './Admin/general-form/general-form.component';
 import { ProductWishlistButtonComponent } from './Buttons/product-wishlist-button/product-wishlist-button.component';
 import { RoundPricePipe } from './pipes/round-price/round-price.pipe';
-import { ProductFormComponent } from './Admin/product-form/product-form.component';
-import { UserFormComponent } from './Admin/user-form/user-form.component';
+import { ProductFormComponent } from './product-form/product-form.component';
+import { UserFormComponent } from './user-form/user-form.component';
 import { OrderComponent } from './order/order.component';
-import { CouponFormComponent } from './Admin/coupon-form/coupon-form.component'; 
+import { CouponFormComponent } from './Admin/coupon-form/coupon-form.component';
 
 @NgModule({
   declarations: [
