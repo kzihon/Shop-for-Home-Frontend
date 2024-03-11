@@ -10,8 +10,8 @@
   </mat-button>
 </div>
 
-<div *ngIf="loggedIn() == true && !isAdmin() == false && inWishlist">
+<div *ngIf="loggedIn() == true && !isAdmin() && inWishlist">
   <mat-button (click)="heartClick()">
-    <mat-icon>favorite</mat-icon>
+    <mat-icon class="fav">favorite</mat-icon>
   </mat-button>
 </div>

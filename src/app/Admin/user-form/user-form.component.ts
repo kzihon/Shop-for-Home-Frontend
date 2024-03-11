@@ -106,28 +106,6 @@ export class UserFormComponent {
             console.log(errorMessage);
           },
         });
-
-      // this.userService.editCustomer(this.customerForm.value).subscribe({
-      //   next: (res) => {
-      //     // this.userService.addCustomerFrontend(res.user);
-
-      //     this.snackBar.open('Edit customer successful!', 'Close', {
-      //       duration: 5000,
-      //       verticalPosition: 'top',
-      //       panelClass: 'success-snackbar',
-      //     });
-
-      //     this.dialogRef.close();
-      //     this.customerForm.reset();
-      //   },
-      //   error: (errorMessage) => {
-      //     this.snackBar.open(errorMessage || 'Uknown error occured.', 'Close', {
-      //       duration: 5000,
-      //       verticalPosition: 'top',
-      //       panelClass: 'error-snackbar',
-      //     });
-      //   },
-      // });
     }
   }
 

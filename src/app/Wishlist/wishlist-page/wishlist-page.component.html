@@ -1,9 +1,9 @@
 <a routerLink="/home">&larr; back to shopping</a>
 <h2>MY WISHLIST</h2>
-<p *ngIf="wishlist.length === 0">No Items In Your Wishlist</p>
+<p *ngIf="wishlistSignal().length === 0">No Items In Your Wishlist</p>
 
 <section class="products">
-  <div *ngFor="let product of wishlist" class="product">
+  <div *ngFor="let product of wishlistSignal()" class="product">
     <app-product-card [product]="product"></app-product-card>
   </div>
 </section>
