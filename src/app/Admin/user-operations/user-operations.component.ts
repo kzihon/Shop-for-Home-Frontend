@@ -4,8 +4,8 @@ import { AuthorizedHttpService } from '../../services/authorized-http/authorized
 import IUserDetails from '../../services/auth/user-response.interface';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Product, User } from '../../model';
-import { ProductFormComponent } from '../product-form/product-form.component';
-import { UserFormComponent } from '../user-form/user-form.component';
+import { ProductFormComponent } from '../../product-form/product-form.component';
+import { UserFormComponent } from '../../user-form/user-form.component';
 import { IUserResponse, UserService } from '../../services/user.service';
 import { Observable } from 'rxjs';
 

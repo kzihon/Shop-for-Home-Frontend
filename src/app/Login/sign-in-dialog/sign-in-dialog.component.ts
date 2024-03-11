@@ -45,8 +45,8 @@ export class SignInDialogComponent implements OnInit {
 
     // @TEST ADMIN
     this.loginForm = this.fb.group({
-      email: ['admin@test.com', [Validators.required]],
-      password: ['admin', [Validators.required]],
+      email: ['', [Validators.required]],
+      password: ['', [Validators.required]],
     });
 
     // @TEST CUSTOMER
@@ -61,7 +61,6 @@ export class SignInDialogComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '60%';
     dialogConfig.height = '80%';
-
     this.dialog.open(SignUpDialogComponent, dialogConfig);
   }
 
@@ -81,7 +80,7 @@ export class SignInDialogComponent implements OnInit {
       },
       error: (errorMessage) => {
         this.snackBar.open(errorMessage || 'Uknown error occured.', 'Close', {
-          duration: 5000,
+          duration: 2000,
           verticalPosition: 'top',
           panelClass: 'error-snackbar',
         });

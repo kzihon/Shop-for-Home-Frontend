@@ -6,11 +6,11 @@ import {
   EditProductWOImage,
   FileHandle,
   Product,
-} from '../../model';
+} from '../model';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AuthorizedHttpService } from '../../services/authorized-http/authorized-http.service';
-import { ProductService } from '../../services/product.service';
-import { GeneralFormComponent } from '../general-form/general-form.component';
+import { AuthorizedHttpService } from '../services/authorized-http/authorized-http.service';
+import { ProductService } from '../services/product.service';
+import { GeneralFormComponent } from '../Admin/general-form/general-form.component';
 
 @Component({
   selector: 'app-product-form',

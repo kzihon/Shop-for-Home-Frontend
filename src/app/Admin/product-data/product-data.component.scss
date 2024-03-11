@@ -1,0 +1,19 @@
+.action {
+  margin: 3%;
+}
+
+.products {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.product {
+  padding: 2%;
+  flex-basis: 15%;
+}
+
+.img {
+  width: 220px;
+  height: 220px;
+  object-fit: "cover";
+}

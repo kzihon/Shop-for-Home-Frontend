@@ -8,7 +8,7 @@ import {
 import { ActivatedRoute, Params } from '@angular/router';
 import { CategoryType, Product } from '../../model';
 import { ProductService } from '../../services/product.service';
-import { ProductFormComponent } from '../product-form/product-form.component';
+import { ProductFormComponent } from '../../product-form/product-form.component';
 
 @Component({
   standalone: true,

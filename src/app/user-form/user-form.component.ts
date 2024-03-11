@@ -1,13 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AddProduct, FileHandle } from '../../model';
-import { AuthorizedHttpService } from '../../services/authorized-http/authorized-http.service';
-import { ProductService } from '../../services/product.service';
-import { GeneralFormComponent } from '../general-form/general-form.component';
-import { AuthService } from '../../services/auth/auth.service';
+import { AddProduct, FileHandle } from '../model';
+import { AuthorizedHttpService } from '../services/authorized-http/authorized-http.service';
+import { ProductService } from '../services/product.service';
+import { GeneralFormComponent } from '../Admin/general-form/general-form.component';
+import { AuthService } from '../services/auth/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-user-form',

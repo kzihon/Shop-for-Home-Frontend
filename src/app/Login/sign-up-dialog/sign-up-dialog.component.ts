@@ -36,10 +36,10 @@ export class SignUpDialogComponent {
     const { required, email } = Validators;
 
     this.registerForm = this.fb.group({
-      firstname: ['customer', [required]],
-      lastname: ['badass', [required]],
-      email: ['customer@email.com', [required, email]],
-      password: ['12345', [required]],
+      firstname: ['', [required]],
+      lastname: ['', [required]],
+      email: ['', [required, email]],
+      password: ['', [required]],
     });
   }
 
@@ -47,6 +47,7 @@ export class SignUpDialogComponent {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '60%';
     dialogConfig.height = 'fit-content';
+    this.closeDialog();
 
     this.dialog.open(SignInDialogComponent, dialogConfig);
   }
@@ -59,7 +60,7 @@ export class SignUpDialogComponent {
     this.authService.register(this.registerForm.value).subscribe({
       next: () => {
         this.snackBar.open('Registration successful!', 'Close', {
-          duration: 5000,
+          duration: 2000,
           verticalPosition: 'top',
           panelClass: 'success-snackbar',
         });
@@ -69,7 +70,7 @@ export class SignUpDialogComponent {
       },
       error: (errorMessage) => {
         this.snackBar.open(errorMessage || 'Uknown error occured.', 'Close', {
-          duration: 5000,
+          duration: 2000,
           verticalPosition: 'top',
           panelClass: 'error-snackbar',
         });
