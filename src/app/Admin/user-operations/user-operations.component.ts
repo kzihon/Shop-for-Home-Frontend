@@ -6,6 +6,8 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Product, User } from '../../model';
 import { ProductFormComponent } from '../product-form/product-form.component';
 import { UserFormComponent } from '../user-form/user-form.component';
+import { IUserResponse, UserService } from '../../services/user.service';
+import { Observable } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -14,15 +16,17 @@ import { UserFormComponent } from '../user-form/user-form.component';
   styleUrl: './user-operations.component.scss',
 })
 export class UserOperationsComponent implements OnInit {
-  customers;
+  // customers;
+  customers: Signal<IUserResponse[]> = computed(() =>
+    this.userService.customers()
+  );
   constructor(
     private authorizedHttpService: AuthorizedHttpService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private userService: UserService
   ) {}
 
-  ngOnInit(): void {
-    this.loadCustomers();
-  }
+  ngOnInit(): void {}
   clickedId: number;
 
   openCreateCustomer() {
@@ -33,7 +37,7 @@ export class UserOperationsComponent implements OnInit {
     };
     this.dialog.open(UserFormComponent, dialogConfig);
   }
-  openEditCustomer(customer: User) {
+  openEditCustomer(customer: IUserResponse) {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.data = {
@@ -43,22 +47,10 @@ export class UserOperationsComponent implements OnInit {
     this.dialog.open(UserFormComponent, dialogConfig);
   }
 
-  deleteCustomer(customer: User) {
-    // this.productService.deleteProductFrontend(product);
-    // this.productService.deleteProduct(product.productId).subscribe((res) => {
-    //   console.log(res);
-    // });
-  }
-
-  loadCustomers() {
-    this.authorizedHttpService.get('/customer/').subscribe({
-      next: (res) => {
-        console.log(res);
-        this.customers = res;
-      },
-      error: (errorMessage) => {
-        console.log(errorMessage);
-      },
+  deleteCustomer(customer: IUserResponse) {
+    this.userService.deleteCustomerFrontend(customer);
+    this.userService.deleteCustomer(customer.id).subscribe((res) => {
+      console.log(res);
     });
   }
 }
